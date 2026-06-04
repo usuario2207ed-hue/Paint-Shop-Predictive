@@ -111,7 +111,7 @@ max-width:1600px;
 
 display:flex;
 
-justify-content:space-between;
+justify-content:center;
 
 align-items:center;
 
@@ -181,23 +181,15 @@ font-family:Consolas;
 
 .title{
 
-font-size:clamp(34px,6vw,70px);
+    font-size:clamp(34px,6vw,70px);
 
-font-weight:900;
+    font-weight:900;
 
-text-align:center;
+    text-align:center;
 
-margin-top:10px;
+    color:#0066ff;
 
-margin-bottom:10px;
-
-transition:1s;
-
-text-shadow:
-
-0 0 20px rgba(0,0,0,.12),
-
-2px 2px 0 rgba(0,0,0,.15);
+    transition:color 3s ease;
 
 }
 
@@ -209,7 +201,7 @@ font-weight:600;
 
 text-align:center;
 
-margin-bottom:20px;
+margin-bottom:35px;
 
 color:#444;
 
@@ -247,7 +239,7 @@ padding-left:100%;
 
 font-weight:bold;
 
-animation:marquee 30s linear infinite;
+animation:marquee 1s linear infinite;
 
 }
 
@@ -567,78 +559,26 @@ right:5%;
 
 <div class="header">
 
-<div class="top-buttons">
+    <div class="top-buttons">
 
-<a href="Objetivo.pdf" target="_blank">
-📖 Leia-me
-</a>
+        <a href="Objetivo.pdf" target="_blank">
+            📖 Leia-me
+        </a>
 
-<a href="https://usuario2207ed-hue.github.io/EDCELL-TECH/"
-target="_blank">
-🌐 URL
-</a>
+        <a href="https://usuario2207ed-hue.github.io/EDCELL-TECH/" target="_blank">
+            🌐 URL
+        </a>
 
-</div>
-
-<div class="clock"
-id="clock">
-00:00:00
-</div>
+    </div>
 
 </div>
 
-<h1 class="title"
-id="title">
-PAINT SHOP PREDICTIVE
+<h1 id="title" class="title">
+    PAINT SHOP PREDICTIVE
 </h1>
 
 <div class="subtitle">
-
-Centro Integrado de Monitoramento e Análise Preditiva
-
-</div>
-
-<div class="marquee-container">
-
-<div class="marquee"
-id="marquee">
-
-🏭 Excelência Operacional • 📈 Monitoramento Inteligente • ⚙️ Prevenção de Falhas • 🔧 Manutenção Preditiva • 🚀 Alta Disponibilidade dos Equipamentos
-
-</div>
-
-</div>
-
-<div class="search-box">
-
-<input
-type="text"
-id="search"
-placeholder="🔎 Pesquisar sistema..."
-onkeyup="filtrarCards()">
-
-</div>
-
-<div class="stats">
-
-<div class="stat-card">
-<div class="stat-value">8</div>
-<div class="stat-label">SISTEMAS</div>
-</div>
-
-<div class="stat-card">
-<div class="stat-value">8</div>
-<div class="stat-label">MANUAIS</div>
-</div>
-
-<div class="stat-card">
-<div class="stat-value">100%</div>
-<div class="stat-label">RESPONSIVO</div>
-</div>
-
-<div class="stat-card">
-<div class="stat-value">24h</div>
-<div class="stat-label">DISPONIBILIDADE</div>
+    Centro Integrado de Monitoramento e Análise Preditiva
 </div>
 
 </div>
@@ -899,150 +839,65 @@ EdcellTech
 
 <script>
 
-function atualizarRelogio(){
-
-const agora = new Date();
-
-document.getElementById(
-"clock"
-).innerHTML =
-
-agora.toLocaleString(
-"pt-BR"
-);
-
-}
-
-setInterval(
-atualizarRelogio,
-1000
-);
-
-atualizarRelogio();
-
 
 const cores = [
 
-"#0066ff",
-"#ff0000",
-"#00aa55",
-"#ff6600",
-"#9900ff",
-"#ff0099",
-"#00cccc",
-"#222222",
-"#ff8800",
-"#0088ff",
-"#00cc66",
-"#cc0000",
-"#8800ff",
-"#00aaaa"
+    "#000000", // Preto
+    "#C0C0C0", // Prata
+    "#808080", // Cinza
+    "#1C1C1C", // Grafite
+
+    "#0057B8", // Azul Metálico
+    "#003DA5", // Azul Escuro
+    "#00AEEF", // Azul Claro
+
+    "#E10600", // Vermelho Sólido
+    "#8B0000", // Vermelho Vinho
+    "#C21807", // Vermelho Metálico
+
+    "#FFD100", // Amarelo
+    "#F5B800", // Amarelo Ouro
+
+    "#FF6A00", // Laranja
+    "#CC5500", // Laranja Queimado
+
+    "#00A651", // Verde
+    "#006B3C", // Verde Escuro
+
+    "#6F2DA8", // Roxo
+    "#8E44AD", // Roxo Metálico
+
+    "#7A4E2D", // Marrom
+    "#C2A878", // Bege
+
+    "#00A3A3", // Turquesa
+    "#0096A7"  // Azul Petróleo
 
 ];
 
-const titulo =
-document.getElementById(
-"title"
-);
+const titulo = document.getElementById("title");
 
-setInterval(()=>{
+function trocarCorTitulo() {
 
-titulo.style.color =
+    if (!titulo) return;
 
-cores[
-Math.floor(
-Math.random() *
-cores.length
-)
-];
+    titulo.style.color =
 
-},1000);
-
-
-const mensagens = [
-
-"🏭 Excelência Operacional através da Manutenção Preditiva",
-
-"📈 Monitoramento Inteligente para Redução de Falhas",
-
-"⚙️ Dados Confiáveis Gerando Decisões Assertivas",
-
-"🔧 Prevenção é mais barata que Correção",
-
-"🚀 Aumentando Disponibilidade e Confiabilidade dos Equipamentos"
-
-];
-
-let indiceMensagem = 0;
-
-function trocarMensagem(){
-
-document.getElementById(
-"marquee"
-).innerHTML =
-
-mensagens[
-indiceMensagem
-];
-
-indiceMensagem++;
-
-if(
-indiceMensagem >=
-mensagens.length
-){
-
-indiceMensagem = 0;
+    cores[
+        Math.floor(
+            Math.random() * cores.length
+        )
+    ];
 
 }
 
-}
+trocarCorTitulo();
 
 setInterval(
-trocarMensagem,
-10000
+    trocarCorTitulo,
+    5000
 );
 
-
-function filtrarCards(){
-
-const filtro =
-
-document
-.getElementById(
-"search"
-)
-.value
-.toLowerCase();
-
-const cards =
-
-document.querySelectorAll(
-".card"
-);
-
-cards.forEach(card=>{
-
-const texto =
-
-card.innerText
-.toLowerCase();
-
-card.style.display =
-
-texto.includes(filtro)
-
-?
-
-"block"
-
-:
-
-"none";
-
-});
-
-}
 
 
 const assuntosDDS = [
@@ -1157,157 +1012,87 @@ notificacao.remove();
 
 }
 
-mostrarDDS();
+function mostrarDDSUmaVezPorDia() {
 
-setInterval(
+    const hoje = new Date().toLocaleDateString("pt-BR");
 
-mostrarDDS,
+    const ultimaExibicao = localStorage.getItem("dds_data");
 
-7200000
+    if (ultimaExibicao === hoje) {
+        return;
+    }
 
-);
+    localStorage.setItem("dds_data", hoje);
+
+    mostrarDDS();
+
+}
+
+mostrarDDSUmaVezPorDia();
+
 const visitas =
-
-localStorage.getItem(
-"zec_hub_visitas"
-)
-
+localStorage.getItem("zec_hub_visitas")
 ?
-
-parseInt(
-localStorage.getItem(
-"zec_hub_visitas"
-)
-)
-
+parseInt(localStorage.getItem("zec_hub_visitas"))
 :
-
 0;
 
 localStorage.setItem(
-"zec_hub_visitas",
-visitas + 1
+    "zec_hub_visitas",
+    visitas + 1
 );
-
 
 const cards =
-
-document.querySelectorAll(
-".card"
-);
+document.querySelectorAll(".card");
 
 cards.forEach((card,index)=>{
 
-card.style.opacity = "0";
+    card.style.opacity = "0";
+    card.style.transform = "translateY(40px)";
 
-card.style.transform =
-"translateY(40px)";
+    setTimeout(()=>{
 
-setTimeout(()=>{
+        card.style.transition = ".6s";
+        card.style.opacity = "1";
+        card.style.transform = "translateY(0px)";
 
-card.style.transition =
-".6s";
-
-card.style.opacity = "1";
-
-card.style.transform =
-"translateY(0px)";
-
-},index * 100);
+    },index * 100);
 
 });
-
 
 setInterval(()=>{
 
-cards.forEach(card=>{
+    cards.forEach(card=>{
 
-card.style.boxShadow =
+        card.style.boxShadow =
+        `0 0 ${10 + Math.random()*20}px rgba(0,102,255,0.15)`;
 
-`
-0 0 ${
-10 + Math.random()*20
-}px rgba(
-0,
-102,
-255,
-0.15
-)
-`;
-
-});
+    });
 
 },2500);
 
-
 document.addEventListener(
-"visibilitychange",
-()=>{
+    "visibilitychange",
+    ()=>{
 
-if(
-!document.hidden
-){
+        if(!document.hidden){
 
-document.title =
-"Paint Shop Predictive";
+            document.title =
+            "Paint Shop Predictive";
 
-}
+        }
 
-}
+    }
 );
-
-
-window.addEventListener(
-"load",
-()=>{
-
-console.log(
-"Hub iniciado com sucesso."
-);
-
-console.log(
-"Desenvolvido por EdcellTech"
-);
-
-}
-);
-
-
-const fundoAnimado = [
-
-"#ffffff",
-"#fcfcfc",
-"#fafafa",
-"#f8f8f8",
-"#fdfdfd"
-
-];
-
-setInterval(()=>{
-
-document.body.style.background =
-
-fundoAnimado[
-Math.floor(
-Math.random() *
-fundoAnimado.length
-)
-];
-
-},15000);
 
 
 const frasesRodape = [
 
-"Monitoramento Inteligente",
-
-"Excelência Operacional",
-
-"Manutenção Preditiva",
-
-"Confiabilidade Industrial",
-
-"Disponibilidade dos Equipamentos"
+    "Monitoramento Inteligente",
+    "Excelência Operacional",
+    "Manutenção Preditiva",
+    "Confiabilidade Industrial",
+    "Disponibilidade dos Equipamentos"
 
 ];
 
@@ -1315,139 +1100,140 @@ let indiceRodape = 0;
 
 setInterval(()=>{
 
-document.querySelector(
-"footer"
-).innerHTML =
+    document.querySelector("footer").innerHTML =
 
-`
-Desenvolvido por:
-EdcellTech
-<br>
-${frasesRodape[indiceRodape]}
-`;
+    `
+    Desenvolvido por:
+    EdcellTech
+    <br>
+    ${frasesRodape[indiceRodape]}
+    `;
 
-indiceRodape++;
+    indiceRodape++;
 
-if(
-indiceRodape >=
-frasesRodape.length
-){
+    if(indiceRodape >= frasesRodape.length){
 
-indiceRodape = 0;
+        indiceRodape = 0;
 
-}
+    }
 
 },5000);
 
-
 document.addEventListener(
-"contextmenu",
-function(e){
+    "contextmenu",
+    function(e){
 
-e.preventDefault();
+        e.preventDefault();
 
-}
+    }
 );
 
 document.addEventListener(
-"keydown",
-function(e){
+    "keydown",
+    function(e){
 
-if(
-e.key === "F12"
-){
+        if(e.key === "F12"){
 
-e.preventDefault();
+            e.preventDefault();
 
-}
+        }
 
-}
+    }
 );
 
 let deferredPrompt;
 
 window.addEventListener(
+    "beforeinstallprompt",
+    (e)=>{
 
-"beforeinstallprompt",
+        e.preventDefault();
 
-(e)=>{
+        deferredPrompt = e;
 
-e.preventDefault();
+        const btn =
+        document.getElementById("installBtn");
 
-deferredPrompt = e;
+        if(btn){
 
-document.getElementById(
-"installBtn"
-).style.display = "block";
+            btn.style.display = "block";
 
-}
+        }
 
+    }
 );
 
-document.getElementById(
-"installBtn"
-).addEventListener(
+window.addEventListener(
+    "load",
+    ()=>{
 
-"click",
+        const btn =
+        document.getElementById("installBtn");
 
-async ()=>{
+        if(!btn) return;
 
-if(!deferredPrompt){
+        btn.addEventListener(
+            "click",
+            async ()=>{
 
-alert(
-"O aplicativo já está instalado ou seu navegador não suporta instalação."
-);
+                if(!deferredPrompt){
 
-return;
+                    alert(
+                        "Para instalar utilize o ícone de instalação da barra de endereço do navegador."
+                    );
 
-}
+                    return;
 
-deferredPrompt.prompt();
+                }
 
-await deferredPrompt.userChoice;
+                deferredPrompt.prompt();
 
-deferredPrompt = null;
+                await deferredPrompt.userChoice;
 
-document.getElementById(
-"installBtn"
-).style.display = "none";
+                deferredPrompt = null;
 
-}
+                btn.style.display = "none";
 
+            }
+        );
+
+    }
 );
 
 if("serviceWorker" in navigator){
 
-window.addEventListener(
+    window.addEventListener(
+        "load",
+        ()=>{
 
-"load",
+            navigator.serviceWorker
+            .register("sw.js")
+            .then(()=>{
 
-()=>{
+                console.log(
+                    "PWA registrado com sucesso."
+                );
 
-navigator.serviceWorker
-.register("sw.js")
-.then(()=>{
+            })
+            .catch((erro)=>{
 
-console.log(
-"PWA registrado com sucesso."
-);
+                console.log(
+                    "Erro ao registrar PWA:",
+                    erro
+                );
 
-});
+            });
 
-}
-
-);
+        }
+    );
 
 }
 
 </script>
 
 <button id="installBtn">
-
 📲 Instalar App
-
 </button>
 
 </body>
-
 </html>
