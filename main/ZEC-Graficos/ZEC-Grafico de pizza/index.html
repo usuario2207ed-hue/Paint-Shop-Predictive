@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+<title>
+ZEC Predictive Dashboard
+</title>
+
+<link
+rel="stylesheet"
+href="style.css"
+>
+
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="topo">
+
+<h1>
+
+🏭 CENTRO DE ANÁLISE PREDITIVA INDUSTRIAL
+
+</h1>
+
+<div id="relogio">
+
+00/00/0000 00:00:00
+
+</div>
+
+</div>
+
+<div class="buttons">
+
+<input
+type="file"
+id="fileInput"
+accept=".txt"
+
+>
+
+<button id="btnCarregar">
+
+📂 Carregar Arquivo
+
+</button>
+
+<button id="btnLimparUltimo">
+
+↩️ Limpar Último
+
+</button>
+
+<button id="btnExportar">
+
+📥 Exportar Excel
+
+</button>
+
+<button id="btnLimparTudo">
+
+🗑️ Limpar Tudo
+
+</button>
+
+</div>
+
+<div class="filtro-container">
+
+<input
+type="text"
+id="filtroEquipamento"
+placeholder="🔎 Pesquisar equipamento..."
+
+>
+
+</div>
+
+<div class="painel-resumo">
+
+<div class="card-resumo">
+
+<div class="titulo-card">
+
+📊 TOTAL DE REGISTROS
+
+</div>
+
+<div
+id="totalRegistros"
+class="valor-card"
+>
+
+0
+
+</div>
+
+</div>
+
+<div class="card-resumo">
+
+<div class="titulo-card">
+
+🟢 SEGUIR INSPEÇÃO
+
+</div>
+
+<div
+id="totalInspecao"
+class="valor-card"
+>
+
+0
+
+</div>
+
+</div>
+
+<div class="card-resumo">
+
+<div class="titulo-card">
+
+🔴 PROGRAMAR MANUTENÇÃO
+
+</div>
+
+<div
+id="totalManutencao"
+class="valor-card"
+>
+
+0
+
+</div>
+
+</div>
+
+</div>
+
+<div class="grafico-container">
+
+<canvas
+id="graficoPizza"> </canvas>
+
+</div>
+
+<div class="detalhes-container">
+
+<h2>
+
+📋 DETALHES DO EQUIPAMENTO
+
+</h2>
+
+<div id="detalhesEquipamento">
+
+Selecione uma fatia do gráfico.
+
+</div>
+
+</div>
+
+<div class="resultado-container">
+
+<table id="tabelaResultado">
+
+<thead>
+
+<tr>
+
+<th>
+
+⚙️ EQUIPAMENTO
+
+</th>
+
+<th>
+
+🕵️ VISUAL
+
+</th>
+
+<th>
+
+🛠️ INTERVENÇÃO
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
+
+</div>
+
+<footer>
+
+Desenvolvido por EdcellTech
+
+</footer>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

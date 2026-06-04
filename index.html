@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Paint Shop Predictive
+</title>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#0066ff">
+
+<link rel="icon" href="icon-192.png">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap"
+rel="stylesheet">
+
+<style>
+
+#installBtn{
+
+position:fixed;
+
+top:20px;
+
+right:20px;
+
+z-index:99999;
+
+padding:14px 22px;
+
+border:none;
+
+border-radius:12px;
+
+background:#0066ff;
+
+color:#fff;
+
+font-size:15px;
+
+font-weight:700;
+
+cursor:pointer;
+
+display:none;
+
+box-shadow:0 5px 20px rgba(0,0,0,.25);
+
+transition:.3s;
+
+}
+
+#installBtn:hover{
+
+transform:scale(1.05);
+
+background:#004dcc;
+
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+background:#ffffff;
+
+min-height:100vh;
+
+overflow-x:hidden;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+padding:20px;
+
+}
+
+.header{
+
+width:100%;
+
+max-width:1600px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+
+gap:15px;
+
+margin-bottom:20px;
+
+}
+
+.top-buttons{
+
+display:flex;
+
+gap:12px;
+
+flex-wrap:wrap;
+
+}
+
+.top-buttons a{
+
+text-decoration:none;
+
+padding:12px 20px;
+
+border-radius:12px;
+
+background:#111;
+
+color:#fff;
+
+font-weight:700;
+
+transition:.3s;
+
+box-shadow:0 4px 10px rgba(0,0,0,.15);
+
+}
+
+.top-buttons a:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 8px 20px rgba(0,0,0,.25);
+
+}
+
+.clock{
+
+font-size:18px;
+
+font-weight:700;
+
+padding:12px 18px;
+
+border-radius:12px;
+
+background:#111;
+
+color:#00ff88;
+
+font-family:Consolas;
+
+}
+
+.title{
+
+font-size:clamp(34px,6vw,70px);
+
+font-weight:900;
+
+text-align:center;
+
+margin-top:10px;
+
+margin-bottom:10px;
+
+transition:1s;
+
+text-shadow:
+
+0 0 20px rgba(0,0,0,.12),
+
+2px 2px 0 rgba(0,0,0,.15);
+
+}
+
+.subtitle{
+
+font-size:20px;
+
+font-weight:600;
+
+text-align:center;
+
+margin-bottom:20px;
+
+color:#444;
+
+}
+
+.marquee-container{
+
+width:100%;
+
+max-width:1600px;
+
+overflow:hidden;
+
+background:#111;
+
+color:#fff;
+
+padding:14px;
+
+border-radius:15px;
+
+margin-bottom:25px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+.marquee{
+
+white-space:nowrap;
+
+display:inline-block;
+
+padding-left:100%;
+
+font-weight:bold;
+
+animation:marquee 30s linear infinite;
+
+}
+
+@keyframes marquee{
+
+0%{
+transform:translateX(0);
+}
+
+100%{
+transform:translateX(-100%);
+}
+
+}
+
+.search-box{
+
+width:100%;
+
+max-width:800px;
+
+margin-bottom:25px;
+
+}
+
+.search-box input{
+
+width:100%;
+
+padding:16px;
+
+font-size:16px;
+
+border:2px solid #ddd;
+
+border-radius:14px;
+
+outline:none;
+
+transition:.3s;
+
+}
+
+.search-box input:focus{
+
+border-color:#0066ff;
+
+}
+
+.stats{
+
+width:100%;
+
+max-width:1600px;
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:15px;
+
+margin-bottom:30px;
+
+}
+
+.stat-card{
+
+background:#fff;
+
+border-radius:18px;
+
+padding:25px;
+
+text-align:center;
+
+box-shadow:0 0 20px rgba(0,0,0,.12);
+
+transition:.3s;
+
+}
+
+.stat-card:hover{
+
+transform:translateY(-5px);
+
+}
+
+.stat-value{
+
+font-size:42px;
+
+font-weight:900;
+
+color:#0066ff;
+
+}
+
+.stat-label{
+
+font-size:14px;
+
+font-weight:700;
+
+color:#555;
+
+}
+
+.menu{
+
+width:100%;
+
+max-width:1600px;
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(320px,1fr));
+
+gap:20px;
+
+margin-bottom:40px;
+
+}
+
+.card{
+
+background:#fff;
+
+border-radius:20px;
+
+padding:25px;
+
+text-align:center;
+
+box-shadow:0 0 20px rgba(0,0,0,.12);
+
+transition:.35s;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.card:hover{
+
+transform:translateY(-8px);
+
+box-shadow:0 15px 30px rgba(0,0,0,.20);
+
+}
+
+.card::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:5px;
+
+background:linear-gradient(
+90deg,
+#0066ff,
+#00cc66,
+#ff6600,
+#ff0066
+);
+
+}
+
+.card h2{
+
+font-size:24px;
+
+margin-bottom:20px;
+
+font-weight:800;
+
+}
+
+.card-buttons{
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+}
+
+.card-buttons a{
+
+text-decoration:none;
+
+padding:12px;
+
+border-radius:12px;
+
+font-weight:700;
+
+transition:.3s;
+
+}
+
+.btn-system{
+
+background:#0066ff;
+
+color:#fff;
+
+}
+
+.btn-manual{
+
+background:#00aa55;
+
+color:#fff;
+
+}
+
+.card-buttons a:hover{
+
+transform:scale(1.03);
+
+}
+
+footer{
+
+margin-top:auto;
+
+padding:25px;
+
+text-align:center;
+
+font-weight:700;
+
+color:#444;
+
+}
+
+.notification{
+
+position:fixed;
+
+bottom:20px;
+
+right:20px;
+
+width:340px;
+
+background:#111;
+
+color:#fff;
+
+padding:18px;
+
+border-radius:15px;
+
+box-shadow:0 0 25px rgba(0,0,0,.35);
+
+z-index:9999;
+
+animation:fadeIn .5s;
+
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+@media(max-width:768px){
+
+.header{
+
+justify-content:center;
+
+}
+
+.clock{
+
+width:100%;
+text-align:center;
+
+}
+
+.notification{
+
+width:90%;
+right:5%;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<div class="top-buttons">
+
+<a href="Objetivo.pdf" target="_blank">
+📖 Leia-me
+</a>
+
+<a href="https://usuario2207ed-hue.github.io/EDCELL-TECH/"
+target="_blank">
+🌐 URL
+</a>
+
+</div>
+
+<div class="clock"
+id="clock">
+00:00:00
+</div>
+
+</div>
+
+<h1 class="title"
+id="title">
+PAINT SHOP PREDICTIVE
+</h1>
+
+<div class="subtitle">
+
+Centro Integrado de Monitoramento e Análise Preditiva
+
+</div>
+
+<div class="marquee-container">
+
+<div class="marquee"
+id="marquee">
+
+🏭 Excelência Operacional • 📈 Monitoramento Inteligente • ⚙️ Prevenção de Falhas • 🔧 Manutenção Preditiva • 🚀 Alta Disponibilidade dos Equipamentos
+
+</div>
+
+</div>
+
+<div class="search-box">
+
+<input
+type="text"
+id="search"
+placeholder="🔎 Pesquisar sistema..."
+onkeyup="filtrarCards()">
+
+</div>
+
+<div class="stats">
+
+<div class="stat-card">
+<div class="stat-value">8</div>
+<div class="stat-label">SISTEMAS</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-value">8</div>
+<div class="stat-label">MANUAIS</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-value">100%</div>
+<div class="stat-label">RESPONSIVO</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-value">24h</div>
+<div class="stat-label">DISPONIBILIDADE</div>
+</div>
+
+</div>
+
+<div class="menu" id="menu">
+
+<div class="card">
+
+<h2>
+🔍 ZEC Inspect
+</h2>
+
+<div class="card-buttons">
+
+<a
+class="btn-system"
+href="main/ZEC-Inspect/ZEC Inspect.html"
+target="_blank">
+
+Abrir Sistema
+
+</a>
+
+<a
+class="btn-manual"
+href="main/ZEC-Inspect/index.pdf"
+target="_blank">
+
+❓ Manual
+
+</a>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+📊 ZEC Prevent
+</h2>
+
+<div class="card-buttons">
+
+<a
+class="btn-system"
+href="main/ZEC-Prevent/ZEC Predictive.html"
+target="_blank">
+
+Abrir Sistema
+
+</a>
+
+<a
+class="btn-manual"
+href="main/ZEC-Prevent/index.pdf"
+target="_blank">
+
+❓ Manual
+
+</a>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+🏷️ ZEC Etiquetas
+</h2>
+
+<div class="card-buttons">
+
+<a
+class="btn-system"
+href="main/ZEC-Etiquetas/index.html"
+target="_blank">
+
+Abrir Sistema
+
+</a>
+
+<a
+class="btn-manual"
+href="main/ZEC-Etiquetas/Manual Usuario CENTERLINE ZEC.pdf"
+target="_blank">
+
+❓ Manual
+
+</a>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>
+📈 ZEC Vision
+</h2>
+
+<div class="card-buttons">
+
+<a
+class="btn-system"
+href="main/ZEC-Vision/index.html"
+target="_blank">
+
+Abrir Sistema
+
+</a>
+
+<a
+class="btn-manual"
+href="main/ZEC-Vision/Manual Usuario ZEC Vision.pdf"
+target="_blank">
+
+❓ Manual
+
+</a>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+🥧 Gráfico Pizza
+</h2>
+
+<div class="card-buttons">
+
+<a
+class="btn-system"
+href="main/ZEC-Graficos/ZEC-Grafico de pizza/index.html"
+target="_blank">
+
+Abrir Sistema
+
+</a>
+
+<a
+class="btn-manual"
+href="main/ZEC-Graficos/ZEC-Grafico de pizza/Manual Usuario ZEC Grafico.pdf"
+target="_blank">
+
+❓ Manual
+
+</a>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>
+📉 Gráfico Pareto
+</h2>
+
+<div class="card-buttons">
+
+<a
+class="btn-system"
+href="main/ZEC-Graficos/ZEC-Grafico de pareto/index.html"
+target="_blank">
+
+Abrir Sistema
+
+</a>
+
+<a
+class="btn-manual"
+href="main/ZEC-Graficos/ZEC-Grafico de pareto/Manual Usuario ZEC Pareto.pdf"
+target="_blank">
+
+❓ Manual
+
+</a>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>
+📈 Gráfico Linhas
+</h2>
+
+<div class="card-buttons">
+
+<a
+class="btn-system"
+href="main/ZEC-Graficos/ZEC-Grafico de linhas/index.html"
+target="_blank">
+
+Abrir Sistema
+
+</a>
+
+<a
+class="btn-manual"
+href="main/ZEC-Graficos/ZEC-Grafico de linhas/Manual Usuario ZEC Grafico.pdf"
+target="_blank">
+
+❓ Manual
+
+</a>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>
+📊 Gráfico Colunas
+</h2>
+
+<div class="card-buttons">
+
+<a
+class="btn-system"
+href="main/ZEC-Graficos/ZEC-Grafico de colunas/index.html"
+target="_blank">
+
+Abrir Sistema
+
+</a>
+
+<a
+class="btn-manual"
+href="main/ZEC-Graficos/ZEC-Grafico de colunas/Manual Usuario ZEC Grafico.pdf"
+target="_blank">
+
+❓ Manual
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+Desenvolvido por:
+EdcellTech
+
+</footer>
+
+<script>
+
+function atualizarRelogio(){
+
+const agora = new Date();
+
+document.getElementById(
+"clock"
+).innerHTML =
+
+agora.toLocaleString(
+"pt-BR"
+);
+
+}
+
+setInterval(
+atualizarRelogio,
+1000
+);
+
+atualizarRelogio();
+
+
+const cores = [
+
+"#0066ff",
+"#ff0000",
+"#00aa55",
+"#ff6600",
+"#9900ff",
+"#ff0099",
+"#00cccc",
+"#222222",
+"#ff8800",
+"#0088ff",
+"#00cc66",
+"#cc0000",
+"#8800ff",
+"#00aaaa"
+
+];
+
+const titulo =
+document.getElementById(
+"title"
+);
+
+setInterval(()=>{
+
+titulo.style.color =
+
+cores[
+Math.floor(
+Math.random() *
+cores.length
+)
+];
+
+},1000);
+
+
+const mensagens = [
+
+"🏭 Excelência Operacional através da Manutenção Preditiva",
+
+"📈 Monitoramento Inteligente para Redução de Falhas",
+
+"⚙️ Dados Confiáveis Gerando Decisões Assertivas",
+
+"🔧 Prevenção é mais barata que Correção",
+
+"🚀 Aumentando Disponibilidade e Confiabilidade dos Equipamentos"
+
+];
+
+let indiceMensagem = 0;
+
+function trocarMensagem(){
+
+document.getElementById(
+"marquee"
+).innerHTML =
+
+mensagens[
+indiceMensagem
+];
+
+indiceMensagem++;
+
+if(
+indiceMensagem >=
+mensagens.length
+){
+
+indiceMensagem = 0;
+
+}
+
+}
+
+setInterval(
+trocarMensagem,
+10000
+);
+
+
+function filtrarCards(){
+
+const filtro =
+
+document
+.getElementById(
+"search"
+)
+.value
+.toLowerCase();
+
+const cards =
+
+document.querySelectorAll(
+".card"
+);
+
+cards.forEach(card=>{
+
+const texto =
+
+card.innerText
+.toLowerCase();
+
+card.style.display =
+
+texto.includes(filtro)
+
+?
+
+"block"
+
+:
+
+"none";
+
+});
+
+}
+
+
+const assuntosDDS = [
+
+"Utilização correta dos EPIs.",
+
+"Organização e limpeza do posto de trabalho.",
+
+"Bloqueio e etiquetagem antes de manutenção.",
+
+"Identificação de riscos antes da atividade.",
+
+"Trabalho em altura com segurança.",
+
+"Segurança com eletricidade.",
+
+"Prevenção contra acidentes com máquinas.",
+
+"Comunicação de quase acidentes.",
+
+"Postura ergonômica durante as atividades.",
+
+"Uso correto de ferramentas manuais.",
+
+"Combate a incêndio e abandono de área.",
+
+"Cuidados com movimentação de cargas.",
+
+"Conscientização sobre atos inseguros.",
+
+"Prevenção de escorregões e quedas.",
+
+"Importância das inspeções preventivas."
+
+];
+
+
+function mostrarDDS(){
+
+const atual = new Date();
+
+const assunto =
+
+assuntosDDS[
+
+Math.floor(
+
+Math.random() *
+
+assuntosDDS.length
+
+)
+
+];
+
+const notificacao =
+
+document.createElement(
+"div"
+);
+
+notificacao.className =
+"notification";
+
+notificacao.innerHTML =
+
+`
+
+<h3>
+
+📢 DDS DE SEGURANÇA
+
+</h3>
+
+<br>
+
+<b>
+Data:
+</b>
+
+${atual.toLocaleDateString('pt-BR')}
+
+<br>
+
+<b>
+Hora:
+</b>
+
+${atual.toLocaleTimeString('pt-BR')}
+
+<br><br>
+
+<b>
+Tema:
+</b>
+
+<br>
+
+${assunto}
+
+`;
+
+document.body.appendChild(
+notificacao
+);
+
+setTimeout(()=>{
+
+notificacao.remove();
+
+},15000);
+
+}
+
+mostrarDDS();
+
+setInterval(
+
+mostrarDDS,
+
+7200000
+
+);
+const visitas =
+
+localStorage.getItem(
+"zec_hub_visitas"
+)
+
+?
+
+parseInt(
+localStorage.getItem(
+"zec_hub_visitas"
+)
+)
+
+:
+
+0;
+
+localStorage.setItem(
+"zec_hub_visitas",
+visitas + 1
+);
+
+
+const cards =
+
+document.querySelectorAll(
+".card"
+);
+
+cards.forEach((card,index)=>{
+
+card.style.opacity = "0";
+
+card.style.transform =
+"translateY(40px)";
+
+setTimeout(()=>{
+
+card.style.transition =
+".6s";
+
+card.style.opacity = "1";
+
+card.style.transform =
+"translateY(0px)";
+
+},index * 100);
+
+});
+
+
+setInterval(()=>{
+
+cards.forEach(card=>{
+
+card.style.boxShadow =
+
+`
+0 0 ${
+10 + Math.random()*20
+}px rgba(
+0,
+102,
+255,
+0.15
+)
+`;
+
+});
+
+},2500);
+
+
+document.addEventListener(
+"visibilitychange",
+()=>{
+
+if(
+!document.hidden
+){
+
+document.title =
+"Paint Shop Predictive";
+
+}
+
+}
+);
+
+
+window.addEventListener(
+"load",
+()=>{
+
+console.log(
+"Hub iniciado com sucesso."
+);
+
+console.log(
+"Desenvolvido por EdcellTech"
+);
+
+}
+);
+
+
+const fundoAnimado = [
+
+"#ffffff",
+"#fcfcfc",
+"#fafafa",
+"#f8f8f8",
+"#fdfdfd"
+
+];
+
+setInterval(()=>{
+
+document.body.style.background =
+
+fundoAnimado[
+Math.floor(
+Math.random() *
+fundoAnimado.length
+)
+];
+
+},15000);
+
+
+const frasesRodape = [
+
+"Monitoramento Inteligente",
+
+"Excelência Operacional",
+
+"Manutenção Preditiva",
+
+"Confiabilidade Industrial",
+
+"Disponibilidade dos Equipamentos"
+
+];
+
+let indiceRodape = 0;
+
+setInterval(()=>{
+
+document.querySelector(
+"footer"
+).innerHTML =
+
+`
+Desenvolvido por:
+EdcellTech
+<br>
+${frasesRodape[indiceRodape]}
+`;
+
+indiceRodape++;
+
+if(
+indiceRodape >=
+frasesRodape.length
+){
+
+indiceRodape = 0;
+
+}
+
+},5000);
+
+
+document.addEventListener(
+"contextmenu",
+function(e){
+
+e.preventDefault();
+
+}
+);
+
+document.addEventListener(
+"keydown",
+function(e){
+
+if(
+e.key === "F12"
+){
+
+e.preventDefault();
+
+}
+
+}
+);
+
+let deferredPrompt;
+
+window.addEventListener(
+
+"beforeinstallprompt",
+
+(e)=>{
+
+e.preventDefault();
+
+deferredPrompt = e;
+
+document.getElementById(
+"installBtn"
+).style.display = "block";
+
+}
+
+);
+
+document.getElementById(
+"installBtn"
+).addEventListener(
+
+"click",
+
+async ()=>{
+
+if(!deferredPrompt){
+
+alert(
+"O aplicativo já está instalado ou seu navegador não suporta instalação."
+);
+
+return;
+
+}
+
+deferredPrompt.prompt();
+
+await deferredPrompt.userChoice;
+
+deferredPrompt = null;
+
+document.getElementById(
+"installBtn"
+).style.display = "none";
+
+}
+
+);
+
+if("serviceWorker" in navigator){
+
+window.addEventListener(
+
+"load",
+
+()=>{
+
+navigator.serviceWorker
+.register("sw.js")
+.then(()=>{
+
+console.log(
+"PWA registrado com sucesso."
+);
+
+});
+
+}
+
+);
+
+}
+
+</script>
+
+<button id="installBtn">
+
+📲 Instalar App
+
+</button>
+
+</body>
+
+</html>
