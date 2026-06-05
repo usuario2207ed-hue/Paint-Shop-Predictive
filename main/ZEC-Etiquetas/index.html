@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CENTERLINE - ZEC</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+body{
+
+    font-family:Roboto,sans-serif;
+
+    background:#ececec;
+
+    padding:20px;
+
+    color:#111;
+
+    overflow-x:hidden;
+
+}
+
+
+.topo{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    gap:25px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.painel{
+
+    width:100%;
+
+    max-width:380px;
+
+    background:#fff;
+
+    border-radius:22px;
+
+    padding:18px;
+
+    box-shadow:0 0 20px rgba(0,0,0,.12);
+
+}
+
+
+.toolbar{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-bottom:18px;
+
+}
+
+.toolbar button,
+.toolbar select,
+.toolbar input[type=color]{
+
+    border:none;
+
+    background:#111;
+
+    color:#fff;
+
+    border-radius:10px;
+
+    padding:10px 12px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+}
+
+.toolbar button:hover{
+    opacity:.85;
+}
+
+
+.campo{
+    margin-bottom:15px;
+}
+
+.campo label{
+
+    display:block;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    margin-bottom:6px;
+
+}
+
+.campo input{
+
+    width:100%;
+
+    height:46px;
+
+    border-radius:12px;
+
+    border:2px solid #cfcfcf;
+
+    padding:10px;
+
+    font-size:17px;
+
+    outline:none;
+
+}
+
+.campo input:focus{
+
+    border-color:#111;
+
+}
+
+
+.botoes{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:18px;
+
+}
+
+.botoes button{
+
+    border:none;
+
+    background:#111;
+
+    color:#fff;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.botoes button:hover{
+
+    transform:scale(1.03);
+
+    opacity:.9;
+
+}
+
+
+#etiqueta{
+
+    width:100%;
+
+    max-width:520px;
+
+    min-height:820px;
+
+    background:#f7f7f7;
+
+    border:6px solid #000;
+
+    border-radius:24px;
+
+    position:relative;
+
+    overflow:visible;
+
+    padding:18px;
+
+    box-shadow:0 0 20px rgba(0,0,0,.10);
+
+}
+
+
+.furo{
+
+    position:absolute;
+
+    width:42px;
+
+    height:42px;
+
+    border:5px solid #000;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    left:12px;
+
+    top:12px;
+
+}
+
+
+.topoEtiqueta{
+
+    text-align:center;
+
+    font-family:Anton,sans-serif;
+
+    font-size:clamp(28px,4vw,44px);
+
+    font-style:italic;
+
+    letter-spacing:1px;
+
+}
+
+
+.caixaPonto{
+
+    margin-top:12px;
+
+    height:34%;
+
+    border:5px solid #000;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    text-align:center;
+
+    position:relative;
+
+}
+
+.tituloPonto{
+
+    font-family:Anton,sans-serif;
+
+    font-size:clamp(36px,5vw,58px);
+
+    line-height:1;
+
+    margin-top:5px;
+
+}
+
+.letraPonto{
+
+    font-size:clamp(170px,24vw,270px);
+
+    font-weight:900;
+
+    color:red;
+
+    line-height:.9;
+
+}
+
+
+.infoEquip{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    border-bottom:4px solid #000;
+
+    padding:18px 5px;
+
+    margin-top:10px;
+
+}
+
+.engrenagem{
+
+    font-size:62px;
+
+}
+
+.nomeEquip{
+
+    font-size:clamp(26px,3vw,42px);
+
+    font-weight:900;
+
+    color:red;
+
+    font-style:italic;
+
+}
+
+
+.linha{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:4px solid #000;
+
+    padding:18px 8px;
+
+}
+
+.esquerda{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.icone{
+
+    font-size:38px;
+
+}
+
+.label{
+
+    font-size:clamp(24px,3vw,38px);
+
+    font-weight:900;
+
+}
+
+.valor{
+
+    font-size:clamp(48px,6vw,76px);
+
+    font-weight:900;
+
+    color:red;
+
+}
+
+
+.rodape{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:10px 5px;
+
+}
+
+.blocoRodape{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.rodapeIcone{
+
+    font-size:56px;
+
+}
+
+.rodapeTexto{
+
+    font-size:clamp(16px,2vw,24px);
+
+    font-weight:900;
+
+}
+
+.rodapeValor{
+
+    font-size:clamp(20px,2vw,32px);
+
+    font-weight:900;
+
+}
+
+.divisor{
+
+    width:4px;
+
+    height:90px;
+
+    background:#000;
+
+}
+
+
+#miniaturas{
+
+    margin-top:25px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+
+    gap:12px;
+
+}
+
+.thumb{
+
+    background:#fff;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    border:2px solid #ccc;
+
+    box-shadow:0 0 10px rgba(0,0,0,.08);
+
+}
+
+.thumb img{
+
+    width:100%;
+
+    display:block;
+
+}
+
+.thumb button{
+
+    width:100%;
+
+    border:none;
+
+    background:#c00000;
+
+    color:#fff;
+
+    padding:10px;
+
+    cursor:pointer;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+
+@media(max-width:1100px){
+
+    .topo{
+
+        flex-direction:column;
+
+        align-items:center;
+
+    }
+
+    #etiqueta{
+
+        width:95vw;
+
+        max-width:650px;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    body{
+        padding:10px;
+    }
+
+    .painel{
+        padding:14px;
+    }
+
+    .toolbar{
+        justify-content:center;
+    }
+
+}
+
+
+@media print{
+
+    @page{
+        size:A4 portrait;
+        margin:10mm;
+    }
+
+    body *{
+        visibility:hidden;
+    }
+
+    #etiqueta,
+    #etiqueta *{
+        visibility:visible;
+    }
+
+    #etiqueta{
+
+        position:absolute;
+
+        left:0;
+
+        top:0;
+
+        overflow:visible !important;
+
+        transform-origin:top left;
+
+        transform:scale(0.50);
+
+        box-shadow:none;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topo">
+
+    <!-- PAINEL -->
+
+    <div class="painel">
+
+        <div class="toolbar">
+
+            <button onclick="document.execCommand('bold')">
+                <b>B</b>
+            </button>
+
+            <button onclick="document.execCommand('italic')">
+                <i>I</i>
+            </button>
+
+            <select onchange="alterarFonte(this.value)">
+
+                <option value="48">
+                    48px
+                </option>
+
+                <option value="58">
+                    58px
+                </option>
+
+                <option value="68">
+                    68px
+                </option>
+
+                <option value="78">
+                    78px
+                </option>
+
+            </select>
+
+            <input type="color" id="corTexto" onchange="alterarCor(this.value)">
+
+        </div>
+
+        <div class="campo">
+            <label>Ponto</label>
+            <input type="text" id="campoPonto" value="A">
+        </div>
+
+        <div class="campo">
+            <label>Equipamento</label>
+            <input type="text" id="campoEquip" value="Servomotor R3">
+        </div>
+
+        <div class="campo">
+            <label>Temperatura</label>
+            <input type="text" id="campoTemp" value="35">
+        </div>
+
+        <div class="campo">
+            <label>Vibração</label>
+            <input type="text" id="campoVib" value="2">
+        </div>
+
+        <div class="campo">
+            <label>Corrente</label>
+            <input type="text" id="campoCorrente" value="2,8">
+        </div>
+
+        <div class="campo">
+            <label>Revisado por</label>
+            <input type="text" id="campoRev" value="Edmilson">
+        </div>
+
+        <div class="campo">
+            <label>Data</label>
+            <input type="date" id="campoData">
+        </div>
+
+        <div class="botoes">
+
+            <button onclick="salvarEtiqueta()">
+                Salvar Etiqueta
+            </button>
+
+            <button onclick="salvarTodasPDF()">
+                Salvar Todas PDF
+            </button>
+
+            <button onclick="window.print()">
+                Imprimir Atual
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div id="etiqueta">
+
+        <div class="furo"></div>
+
+        <div class="topoEtiqueta">
+            CENTERLINE - ZEC
+        </div>
+
+        <div class="caixaPonto">
+
+            <div class="tituloPonto">
+                PONTO
+            </div>
+
+            <div class="letraPonto" id="previewPonto">
+                A
+            </div>
+
+        </div>
+
+        <div class="infoEquip">
+
+            <div class="engrenagem">
+                ⚙️
+            </div>
+
+            <div class="nomeEquip" id="previewEquip">
+                Nome do Equipamento aqui
+            </div>
+
+        </div>
+
+        <div class="linha">
+
+            <div class="esquerda">
+
+                <div class="icone">
+                    🌡️
+                </div>
+
+                <div class="label">
+                    Temperatura (ºC):
+                </div>
+
+            </div>
+
+            <div class="valor" id="previewTemp">
+                0
+            </div>
+
+        </div>
+
+        <div class="linha">
+
+            <div class="esquerda">
+
+                <div class="icone">
+                    📶
+                </div>
+
+                <div class="label">
+                    Vibração (mm/s):
+                </div>
+
+            </div>
+
+            <div class="valor" id="previewVib">
+                0
+            </div>
+
+        </div>
+
+        <div class="linha">
+
+            <div class="esquerda">
+
+                <div class="icone">
+                    ⚡
+                </div>
+
+                <div class="label">
+                    Corrente (A):
+                </div>
+
+            </div>
+
+            <div class="valor" id="previewCorrente">
+                0
+            </div>
+
+        </div>
+
+        <div class="rodape">
+
+            <div class="blocoRodape">
+
+                <div class="rodapeIcone">
+                    👤
+                </div>
+
+                <div>
+
+                    <div class="rodapeTexto">
+                        Revisado por:
+                    </div>
+
+                    <div class="rodapeValor" id="previewRev">
+                        Seu nome aqui
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="divisor"></div>
+
+            <div class="blocoRodape">
+
+                <div class="rodapeIcone">
+                    📅
+                </div>
+
+                <div>
+
+                    <div class="rodapeTexto">
+                        Data:
+                    </div>
+
+                    <div class="rodapeValor" id="previewData">
+                        dd/mm/aaaa
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<h2 style="margin-top:30px;">
+    Etiquetas Salvas
+</h2>
+
+<div id="miniaturas"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+
+
+const campoPonto = document.getElementById('campoPonto');
+const campoEquip = document.getElementById('campoEquip');
+const campoTemp = document.getElementById('campoTemp');
+const campoVib = document.getElementById('campoVib');
+const campoCorrente = document.getElementById('campoCorrente');
+const campoRev = document.getElementById('campoRev');
+const campoData = document.getElementById('campoData');
+
+
+function atualizar(){
+
+    document.getElementById('previewPonto').innerText =
+        campoPonto.value;
+
+    document.getElementById('previewEquip').innerText =
+        campoEquip.value;
+
+    document.getElementById('previewTemp').innerText =
+        campoTemp.value;
+
+    document.getElementById('previewVib').innerText =
+        campoVib.value;
+
+    document.getElementById('previewCorrente').innerText =
+        campoCorrente.value;
+
+    document.getElementById('previewRev').innerText =
+        campoRev.value;
+
+    if(campoData.value){
+
+        const data = new Date(campoData.value);
+
+        document.getElementById('previewData').innerText =
+            data.toLocaleDateString('pt-BR');
+
+    }
+
+}
+
+document.querySelectorAll('input').forEach(inp=>{
+
+    inp.addEventListener('input', atualizar);
+
+});
+
+atualizar();
+
+
+function alterarCor(cor){
+
+    document.querySelectorAll(
+        '.valor,.nomeEquip,.letraPonto'
+    ).forEach(el=>{
+
+        el.style.color = cor;
+
+    });
+
+}
+
+
+function alterarFonte(tam){
+
+    document.querySelectorAll('.valor').forEach(el=>{
+
+        el.style.fontSize = tam + 'px';
+
+    });
+
+}
+
+
+function salvarEtiqueta(){
+
+    html2canvas(document.getElementById('etiqueta')).then(canvas=>{
+
+        const img = canvas.toDataURL('image/png');
+
+        let lista =
+            JSON.parse(localStorage.getItem('etiquetasZEC')) || [];
+
+        lista.unshift(img);
+
+        if(lista.length > 100){
+
+            lista = lista.slice(0,100);
+
+        }
+
+        localStorage.setItem(
+            'etiquetasZEC',
+            JSON.stringify(lista)
+        );
+
+        carregarMiniaturas();
+
+        alert('Etiqueta salva com sucesso!');
+
+    });
+
+}
+
+
+function carregarMiniaturas(){
+
+    const miniaturas =
+        document.getElementById('miniaturas');
+
+    miniaturas.innerHTML = '';
+
+    const lista =
+        JSON.parse(localStorage.getItem('etiquetasZEC')) || [];
+
+    lista.forEach((img,index)=>{
+
+        const div = document.createElement('div');
+
+        div.className = 'thumb';
+
+        div.innerHTML = `
+            <img src="${img}">
+            <button onclick="excluirMiniatura(${index})">
+                Excluir
+            </button>
+        `;
+
+        miniaturas.appendChild(div);
+
+    });
+
+}
+
+
+function excluirMiniatura(index){
+
+    let lista =
+        JSON.parse(localStorage.getItem('etiquetasZEC')) || [];
+
+    lista.splice(index,1);
+
+    localStorage.setItem(
+        'etiquetasZEC',
+        JSON.stringify(lista)
+    );
+
+    carregarMiniaturas();
+
+}
+
+
+async function salvarTodasPDF(){
+
+    const { jsPDF } = window.jspdf;
+
+    const pdf = new jsPDF(
+        'landscape',
+        'mm',
+        'a4'
+    );
+
+    const lista =
+        JSON.parse(
+            localStorage.getItem('etiquetasZEC')
+        ) || [];
+
+    const larguraEtiqueta = 60;
+    const alturaEtiqueta = 88;
+
+    const margemEsquerda = 8;
+    const margemSuperior = 8;
+
+    const espacamentoHorizontal = 8;
+    const espacamentoVertical = 10;
+
+    let coluna = 0;
+    let linha = 0;
+
+    for(let i = 0; i < lista.length; i++){
+
+        const x =
+            margemEsquerda +
+            (coluna * (larguraEtiqueta + espacamentoHorizontal));
+
+        const y =
+            margemSuperior +
+            (linha * (alturaEtiqueta + espacamentoVertical));
+
+        pdf.addImage(
+            lista[i],
+            'PNG',
+            x,
+            y,
+            larguraEtiqueta,
+            alturaEtiqueta
+        );
+
+        coluna++;
+
+        if(coluna >= 3){
+
+            coluna = 0;
+            linha++;
+
+        }
+
+        if(linha >= 2 && i < lista.length - 1){
+
+            pdf.addPage();
+
+            coluna = 0;
+            linha = 0;
+
+        }
+
+    }
+
+    pdf.save('ETIQUETAS_ZEC.pdf');
+
+}
+
+
+carregarMiniaturas();
+
+</script>
+
+</body>
+</html>

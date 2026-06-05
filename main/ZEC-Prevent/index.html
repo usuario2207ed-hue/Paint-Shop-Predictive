@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+ZEC Predictive Dashboard
+</title>
+
+<link
+rel="stylesheet"
+href="style.css"
+>
+
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+
+</head>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
+
+<body>
+
+<div class="container">
+
+
+<div class="topo">
+
+<h1>
+
+🏭 CENTRO DE ANÁLISE PREDITIVA INDUSTRIAL
+
+</h1>
+
+<div id="relogio">
+
+00/00/0000 00:00:00
+
+</div>
+
+</div>
+
+
+<div class="buttons">
+
+<input
+type="file"
+id="fileInput"
+accept=".txt"
+>
+
+<button id="btnCarregar">
+
+📂 Carregar Arquivo
+
+</button>
+
+<button id="btnLimparUltimo">
+
+↩️ Limpar Último
+
+</button>
+
+<button id="btnExportar">
+
+📥 Exportar Excel
+
+</button>
+
+<button id="btnLimparTudo">
+
+🗑️ Limpar Tudo
+
+</button>
+
+</div>
+
+<div class="legenda-ranges">
+
+<span>
+
+🌡️ Temperatura:
+20 ~ 70 ºC
+
+</span>
+
+<span>
+
+📳 Vibração:
+0,1 ~ 4,5 mm/s
+
+</span>
+
+<span>
+
+⚡ Corrente:
+1 ~ 8 A
+
+</span>
+
+</div>
+
+<div class="table-container">
+
+<table id="tabela">
+
+<thead>
+
+<tr>
+
+<th>
+⚙️ EQUIPAMENTO
+</th>
+
+<th>
+📅 DATA/HORA
+</th>
+
+<th>
+🕵️ VISUAL
+</th>
+
+<th>
+📋 OBSERVAÇÃO
+</th>
+
+<th>
+🌡️ TEMPERATURA
+</th>
+
+<th>
+📳 VIBRAÇÃO
+</th>
+
+<th>
+⚡ CORRENTE
+</th>
+
+<th>
+STATUS 🌡️
+</th>
+
+<th>
+STATUS 📳
+</th>
+
+<th>
+STATUS ⚡
+</th>
+
+<th>
+🛠️ INTERVENÇÃO
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<footer>
+
+Desenvolvido por Edmilson Charif Elmaes
+
+</footer>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

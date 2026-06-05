@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ZEC Inspect</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#ffffff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:700px;
+    background:#ffffff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,0.15);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:30px;
+    font-size:32px;
+    font-weight:bold;
+    animation:cores 5s infinite;
+}
+
+@keyframes cores{
+
+    0%{color:#0066ff;}
+    25%{color:#00aa55;}
+    50%{color:#ff6600;}
+    75%{color:#aa00ff;}
+    100%{color:#0066ff;}
+
+}
+
+.wave{
+    animation:onda 30s infinite;
+}
+
+@keyframes onda{
+
+    0%{transform:translateY(0px);}
+    10%{transform:translateY(-2px);}
+    20%{transform:translateY(0px);}
+    30%{transform:translateY(2px);}
+    40%{transform:translateY(0px);}
+    50%{transform:translateY(-2px);}
+    60%{transform:translateY(0px);}
+    70%{transform:translateY(2px);}
+    80%{transform:translateY(0px);}
+    90%{transform:translateY(-2px);}
+    100%{transform:translateY(0px);}
+
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+label{
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:6px;
+}
+
+.help{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#007bff;
+    color:#fff;
+    font-size:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    position:relative;
+}
+
+.help:hover::after{
+
+    content:attr(data-help);
+    position:absolute;
+    top:30px;
+    left:0;
+    width:220px;
+    background:#222;
+    color:#fff;
+    padding:10px;
+    border-radius:8px;
+    font-size:12px;
+    z-index:999;
+
+}
+
+input,
+select,
+textarea{
+
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:16px;
+
+}
+
+textarea{
+    resize:none;
+    height:100px;
+}
+
+.buttons{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:25px;
+}
+
+button{
+
+    flex:1;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+
+}
+
+button:hover{
+    opacity:0.85;
+}
+
+.btn-save{
+    background:#00aa55;
+    color:#fff;
+}
+
+.btn-clear{
+    background:#ff4444;
+    color:#fff;
+}
+
+.btn-export{
+    background:#0066ff;
+    color:#fff;
+}
+
+.historico{
+    margin-top:35px;
+}
+
+.historico h2{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.card{
+
+    background:#f8f8f8;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:10px;
+
+}
+
+.card strong{
+    color:#0066ff;
+}
+
+footer{
+
+    margin-top:30px;
+    text-align:center;
+    color:#555;
+    font-size:14px;
+
+}
+
+#outroResponsavel{
+    display:none;
+}
+
+@media(max-width:600px){
+
+    h1{
+        font-size:24px;
+    }
+
+    button{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 id="titulo"></h1>
+
+<div class="form-group">
+
+<label>
+
+👨‍🔧 Responsável
+
+<span class="help"
+data-help="Selecione o responsável pela medição.">
+?
+</span>
+
+</label>
+
+<select id="responsavel"
+onchange="verificarResponsavel()">
+
+<option value="">Selecione</option>
+
+<option>Edmilson</option>
+<option>CI 1º turno</option>
+<option>CI 2º turno</option>
+<option>Outros</option>
+
+</select>
+
+</div>
+
+<div class="form-group"
+id="outroResponsavel">
+
+<label>
+
+✍️ Nome do Responsável
+
+</label>
+
+<input type="text"
+id="nomeOutroResponsavel">
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+⚙️ Equipamentos
+
+<span class="help"
+data-help="Selecione o equipamento analisado.">
+?
+</span>
+
+</label>
+
+<select id="equipamento">
+
+<option value="">Selecione</option>
+
+<option>A1-Painel elétrico</option> 
+<option>A2-Painel elétrico mesa</option> 
+<option>A3-Mesas</option>
+<option>A4-Sensor de posicionamento skid</option>
+<option>A5-Sensor leitor do skid</option>
+<option>A6-Sensor 2 de posição do skid</option>
+<option>A7-Motor do transportador do skid</option>
+<option>A8-Correntes do transportador</option>
+<option>A9-Sensores do esticador da corrente</option>
+<option>A10-Sensor de saída do skid</option>
+<option>A11-Circuito da cortina ionizante</option>
+<option>A12-Cortina ionizante</option>
+<option>A13-Mesa giratória</option>
+<option>A14-Mesa 2</option>
+<option>A15-TP do R2 BC0</option>
+<option>A16-Mochila 4PLPB22 R2 BC0</option>
+<option>A17-CLP estação Laques número BC0</option>
+<option>A18-Controlador 4PLBB22 R2 BC0</option>
+<option>A19-Dock station BC0</option>
+<option>A20-Painel elétrico controlador de fluxo de ar BC0</option>
+<option>A21-Armário de válvulas pistolas BC0</option>
+<option>A22-Armário de válvulas pistolas BC1</option>
+<option>A23-Mochila 4PLBP21 R2 BC1</option>
+<option>A24-Controlador 4PLBB21 BC1</option>
+<option>A25-Dock station 4PLBP21 BC1</option>
+<option>A26-TPs R2 e R4 BC2</option>
+<option>A27-Controlador 4PLBB41 R4 BC2</option>
+<option>A28-Mochila 4PLBP41 R4 BC2</option>
+<option>A29-Dock station 4PLBP41 BC2</option>
+<option>A30-CLP estação Laques número BC1 e BC2</option>
+<option>A31-Reservatório de óleo corrente transportador</option>
+<option>A32-Motor transmissão do transportador BC0, BC1 e BC2</option>
+<option>A33-Controlador da mesa matagem PLBM502</option>
+<option>A34-Painel controlador de temperatura da matagem</option>
+<option>A35-Painel elétrico mesa matagem</option>
+<option>A36-Controlador de sincronismo da mesa matagem</option>
+<option>A37-Painel elétrico PL20 matagem</option>
+<option>A38-Motor da mesa final matagem</option>
+<option>A39-Controlador sincronismo mesa matagem</option>
+<option>A40-Armário de válvulas verniz</option>
+<option>A41-Promix verniz corredor A</option>
+<option>A42-Painel geral 4PLBB02 verniz</option>
+<option>A43-Controlador 4PLBB02 R4 verniz</option>
+<option>A44-Painel antiincêndio corredor A</option>
+<option>A45-Mochila 4PLBP42 R4 verniz</option>
+<option>A46-Painel cabine verniz</option>
+<option>A47-Estufa</option>
+<option>B1-Reservatório 2 de óleo corrente transportador</option>
+<option>B2-Controlador 4PLBB11 R2 BC1</option>
+<option>B3-Dock station 4PLBP11 BC1</option>
+<option>B4-Mochila 4PLBP11 R1 BC1</option>
+<option>B5-PC mesa do líder e CI de processo</option>
+<option>B6-Armário de válvulas pistolas BC1</option>
+<option>B7-Armário de pistolas BC1</option>
+<option>B8-PC câmeras BC0</option>
+<option>B9-Painel P0 BC0</option>
+<option>B10-Painel PLBM605 cabine 2</option>
+<option>B11-Controlador 4PLBB12 R1 BC0</option>
+<option>B12-Dock station BC0</option>
+<option>B13-Mochila 4PLBP12 R1 BC0</option>
+<option>B14-PC BC0</option>
+<option>B15-TP R1 BC0</option>
+<option>B16-Robô R1 BC0</option>
+<option>B17-Robô R2 BC0</option>
+<option>B18-Robô R1 BC1</option>
+<option>B19-Robô R2 BC1</option>
+<option>B20-Robô R3 BC2</option>
+<option>B21-Robô R4 BC2</option>
+<option>B22-Robô R1 Verniz</option>
+<option>B23-Robô R2 Verniz</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+🕵️ Visual
+
+<span class="help"
+data-help="Selecione a condição visual do equipamento.">
+?
+</span>
+
+</label>
+
+<select id="visual">
+
+<option value="">Selecione</option>
+
+<option>Normal</option>
+<option>Acúmulo de pó</option>
+<option>Acúmulo de água</option>
+<option>Aquecimento excessivo</option>
+<option>Aquecimento leve</option>
+<option>Alarme ativo</option>
+<option>Baixo nível de óleo</option>
+<option>Batida mecânica</option>
+<option>Cabo aquecido</option>
+<option>Cabo danificado</option>
+<option>Centelhamento</option>
+<option>Cheiro de queimado</option>
+<option>Componente danificado</option>
+<option>Componente queimado</option>
+<option>Condensação interna</option>
+<option>Contaminação por óleo</option>
+<option>Corrosão avançada</option>
+<option>Correia desgastada</option>
+<option>Correia frouxa</option>
+<option>Correia rompida</option>
+<option>Corrente elevada</option>
+<option>Desgaste avançado</option>
+<option>Desgaste em rolamento</option>
+<option>Entrada de ar obstruída</option>
+<option>Equipamento parado</option>
+<option>Equipamento molhado pela chuva</option>
+<option>Estrutura desalinhada</option>
+<option>Faíscamento</option>
+<option>Falha crítica</option>
+<option>Falha intermitente</option>
+<option>Filtro saturado</option>
+<option>Fixação solta</option>
+<option>Funcionamento irregular</option>
+<option>Isolamento ressecado</option>
+<option>Leitura instável</option>
+<option>Leve desgaste</option>
+<option>Lubrificação excessiva</option>
+<option>Lubrificação insuficiente</option>
+<option>Motor sobrecarregado</option>
+<option>Odor anormal</option>
+<option>Odor forte</option>
+<option>Odor intermitente</option>
+<option>Oscilação anormal</option>
+<option>Oxidação</option>
+<option>Oxidação por umidade</option>
+<option>Parafuso frouxo</option>
+<option>Peça quebrada</option>
+<option>Polia desalinhada</option>
+<option>Ponto de ferrugem</option>
+<option>Presença de água</option>
+<option>Ruído anormal</option>
+<option>Ruído intermitente</option>
+<option>Sensor descalibrado</option>
+<option>Sensor inoperante</option>
+<option>Sem ventilação</option>
+<option>Sujeira excessiva</option>
+<option>Superaquecimento</option>
+<option>Tensão irregular</option>
+<option>Trinca estrutural</option>
+<option>Umidade excessiva</option>
+<option>Vazamento de água</option>
+<option>Vazamento de óleo</option>
+<option>Vazamento hidráulico</option>
+<option>Vazamento pneumático</option>
+<option>Ventilação obstruída</option>
+<option>Vibração leve</option>
+<option>Vibração excessiva</option>
+<option>Telhado com infiltração</option>
+<option>Não conforme</option>
+<option>Vazio</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+🌡️ Temperatura (°C)
+
+<span class="help"
+data-help="Informe a temperatura atual encontrada no equipamento.">
+?
+</span>
+
+</label>
+
+<input type="number"
+id="temperatura">
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+📈 Vibração (mm/s)
+
+<span class="help"
+data-help="Informe o valor da vibração atual encontrado no equipamento.">
+?
+</span>
+
+</label>
+
+<input type="number"
+step="0.01"
+id="vibracao">
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+⚡ Corrente (A)
+
+<span class="help"
+data-help="Digite o valor da corrente elétrica atual encontrada no equipamento.">
+?
+</span>
+
+</label>
+
+<input type="number"
+step="0.01"
+id="corrente">
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+📋 Observação
+
+<span class="help"
+data-help="Digite observações importantes.">
+?
+</span>
+
+</label>
+
+<textarea id="observacao"></textarea>
+
+</div>
+
+<div class="buttons">
+
+<button class="btn-export"
+onclick="exportarTXT()">
+
+💾 Exportar TXT
+
+</button>
+
+<button class="btn-clear"
+onclick="limparCampos()">
+
+🧹 Limpar Campos
+
+</button>
+
+<button class="btn-save"
+onclick="gravarDados()">
+
+💾 Gravar
+
+</button>
+
+</div>
+
+<div class="historico">
+
+<h2>📊 Últimas 5 medições</h2>
+
+<div id="listaMedicoes"></div>
+
+<button class="btn-clear"
+onclick="limparHistorico()">
+
+🗑️ Limpar Histórico
+
+</button>
+
+</div>
+
+<footer>
+
+Desenvolvido por Edmilson Charif Elmaes
+
+</footer>
+
+</div>
+
+<script>
+
+
+const texto =
+"ZEC Inspetor";
+
+const titulo =
+document.getElementById("titulo");
+
+texto.split("").forEach((letra,index)=>{
+
+    const span =
+    document.createElement("span");
+
+    span.innerHTML =
+    letra === " "
+    ? "&nbsp;"
+    : letra;
+
+    span.style.display =
+    "inline-block";
+
+    span.style.animationDelay =
+    `${index * 0.1}s`;
+
+    span.classList.add("wave");
+
+    titulo.appendChild(span);
+
+});
+
+
+function verificarResponsavel(){
+
+    const responsavel =
+    document.getElementById(
+    "responsavel").value;
+
+    document.getElementById(
+    "outroResponsavel").style.display =
+
+    responsavel === "Outros"
+    ? "block"
+    : "none";
+
+}
+
+function limparCampos(){
+
+    document.getElementById("responsavel").value = "";
+
+    document.getElementById("nomeOutroResponsavel").value = "";
+
+    document.getElementById("equipamento").value = "";
+
+    document.getElementById("visual").value = "";
+
+    document.getElementById("temperatura").value = "";
+
+    document.getElementById("vibracao").value = "";
+
+    document.getElementById("corrente").value = "";
+
+    document.getElementById("observacao").value = "";
+
+    document.getElementById(
+    "outroResponsavel").style.display = "none";
+
+}
+
+
+function gravarDados(){
+
+    const agora = new Date();
+
+    const dataFormatada =
+
+    agora.toLocaleDateString("pt-BR")
+    + " " +
+    agora.toLocaleTimeString("pt-BR");
+
+    let responsavel =
+    document.getElementById(
+    "responsavel").value;
+
+    if(responsavel === "Outros"){
+
+        responsavel =
+        document.getElementById(
+        "nomeOutroResponsavel").value;
+
+    }
+
+    const equipamento =
+    document.getElementById(
+    "equipamento").value;
+
+    const visual =
+    document.getElementById(
+    "visual").value;
+
+    const temperatura =
+    document.getElementById(
+    "temperatura").value;
+
+    const vibracao =
+    document.getElementById(
+    "vibracao").value;
+
+    const corrente =
+    document.getElementById(
+    "corrente").value;
+
+    const observacao =
+    document.getElementById(
+    "observacao").value;
+
+    if(!responsavel ||
+       !equipamento ||
+       !visual){
+
+        alert(
+        "⚠️ Preencha os campos obrigatórios."
+        );
+
+        return;
+
+    }
+
+const conteudo =
+
+`PREDITIVO ZEC
+
+Data/Hora: ${dataFormatada}
+
+Responsável: ${responsavel}
+
+Equipamento: ${equipamento}
+
+Visual: ${visual}
+
+Temperatura: ${temperatura} °C
+
+Vibração: ${vibracao} mm/s
+
+Corrente: ${corrente} A
+
+Observação:
+${observacao}
+
+--------------------------------
+
+`;
+
+let historicoTXT =
+localStorage.getItem(
+"historicoTXT") || "";
+
+historicoTXT += conteudo;
+
+localStorage.setItem(
+"historicoTXT",
+historicoTXT
+);
+
+salvarStorage(
+dataFormatada,
+responsavel,
+equipamento,
+visual,
+temperatura,
+vibracao,
+corrente
+);
+
+alert("✅ Medição gravada.");
+
+limparCampos();
+
+}
+
+function salvarStorage(
+dataHora,
+responsavel,
+equipamento,
+visual,
+temperatura,
+vibracao,
+corrente
+){
+
+let medicoes =
+JSON.parse(
+localStorage.getItem("medicoes")
+) || [];
+
+medicoes.unshift({
+
+dataHora,
+responsavel,
+equipamento,
+visual,
+temperatura,
+vibracao,
+corrente
+
+});
+
+medicoes = medicoes.slice(0,5);
+
+localStorage.setItem(
+"medicoes",
+JSON.stringify(medicoes)
+);
+
+mostrarMedicoes();
+
+}
+
+
+function mostrarMedicoes(){
+
+const lista =
+document.getElementById(
+"listaMedicoes");
+
+lista.innerHTML = "";
+
+let medicoes =
+JSON.parse(
+localStorage.getItem("medicoes")
+) || [];
+
+medicoes.forEach(item => {
+
+lista.innerHTML += `
+
+<div class="card">
+
+<strong>${item.dataHora}</strong>
+
+<br><br>
+
+👨‍🔧 ${item.responsavel}<br>
+
+⚙️ ${item.equipamento}<br>
+
+🕵️ ${item.visual}<br>
+
+🌡️ ${item.temperatura} °C<br>
+
+📈 ${item.vibracao} mm/s<br>
+
+⚡ ${item.corrente} A
+
+</div>
+
+`;
+
+});
+
+}
+
+mostrarMedicoes();
+
+function exportarTXT(){
+
+const historicoTXT =
+localStorage.getItem(
+"historicoTXT");
+
+if(!historicoTXT){
+
+alert(
+"⚠️ Nenhum histórico encontrado."
+);
+
+return;
+
+}
+
+const blob =
+new Blob(
+[historicoTXT],
+{ type:"text/plain" }
+);
+
+const link =
+document.createElement("a");
+
+link.href =
+URL.createObjectURL(blob);
+
+const agora = new Date();
+
+const dataArquivo =
+
+agora.getFullYear()
+
++ "-"
+
++ String(
+agora.getMonth() + 1
+).padStart(2,"0")
+
++ "-"
+
++ String(
+agora.getDate()
+).padStart(2,"0")
+
++ "_"
+
++ String(
+agora.getHours()
+).padStart(2,"0")
+
++ "-"
+
++ String(
+agora.getMinutes()
+).padStart(2,"0")
+
++ "-"
+
++ String(
+agora.getSeconds()
+).padStart(2,"0");
+
+link.download =
+
+"Historico_Preditivo_ZEC_"
+
++ dataArquivo +
+
+".txt";
+
+
+link.click();
+
+}
+
+
+function limparHistorico(){
+
+const confirmar =
+confirm(
+
+"⚠️ Tem certeza que deseja apagar todo o histórico?"
+
+);
+
+if(!confirmar){
+return;
+}
+
+const senha =
+prompt(
+
+`🔒 Somente o desenvolvedor Edmilson tem acesso.
+
+Digite a senha:`
+
+);
+
+if(senha === "123456"){
+
+localStorage.removeItem(
+"medicoes"
+);
+
+localStorage.removeItem(
+"historicoTXT"
+);
+
+mostrarMedicoes();
+
+alert(
+"✅ Histórico apagado com sucesso."
+);
+
+}else{
+
+alert(
+"❌ Senha incorreta."
+);
+
+}
+
+}
+
+
+async function solicitarPermissaoNotificacao(){
+
+const permissaoSalva =
+localStorage.getItem(
+"permissaoNotificacao"
+);
+
+if(permissaoSalva === "autorizado"){
+return;
+}
+
+if(Notification.permission !== "granted"){
+
+const permissao =
+await Notification.requestPermission();
+
+if(permissao === "granted"){
+
+localStorage.setItem(
+"permissaoNotificacao",
+"autorizado"
+);
+
+}
+
+}
+
+}
+
+const horariosMonitoramento = [
+
+"08:00",
+"15:00",
+"18:00",
+"23:00"
+
+];
+
+function verificarHorarioNotificacao(){
+
+const agora = new Date();
+
+const horaAtual =
+
+agora.getHours()
+.toString()
+.padStart(2,'0')
+
++ ":" +
+
+agora.getMinutes()
+.toString()
+.padStart(2,'0');
+
+const dataHoje =
+agora.toLocaleDateString("pt-BR");
+
+let notificacoesEnviadas =
+
+JSON.parse(
+localStorage.getItem(
+"notificacoesEnviadas"
+)
+) || {};
+
+horariosMonitoramento.forEach(
+horario => {
+
+const chave =
+dataHoje + "_" + horario;
+
+if(
+horaAtual === horario &&
+!notificacoesEnviadas[chave]
+){
+
+enviarNotificacao(horario);
+
+notificacoesEnviadas[chave] = true;
+
+localStorage.setItem(
+"notificacoesEnviadas",
+JSON.stringify(
+notificacoesEnviadas
+)
+);
+
+}
+
+});
+
+}
+
+function enviarNotificacao(horario){
+
+if(Notification.permission === "granted"){
+
+new Notification(
+
+"🔔 Lembrete de Monitoramento",
+
+{
+
+body:
+"Horário programado para inspeção preditiva: "
++ horario,
+
+icon:
+"https://cdn-icons-png.flaticon.com/512/2920/2920349.png"
+
+}
+
+);
+
+}
+
+}
+
+setInterval(
+verificarHorarioNotificacao,
+30000
+);
+
+solicitarPermissaoNotificacao();
+
+
+let deferredPrompt;
+
+window.addEventListener(
+'beforeinstallprompt',
+
+(e)=>{
+
+e.preventDefault();
+
+deferredPrompt = e;
+
+mostrarBotaoInstalar();
+
+});
+
+function mostrarBotaoInstalar(){
+
+if(document.getElementById(
+"btnInstalar"
+)) return;
+
+const botao =
+document.createElement("button");
+
+botao.id = "btnInstalar";
+
+botao.innerHTML =
+"📲 Instalar Aplicativo";
+
+botao.className =
+"btn-export";
+
+botao.onclick = async ()=>{
+
+if(deferredPrompt){
+
+deferredPrompt.prompt();
+
+await deferredPrompt.userChoice;
+
+deferredPrompt = null;
+
+}
+
+};
+
+document.querySelector(
+".buttons"
+).appendChild(botao);
+
+}
+
+
+if('serviceWorker' in navigator){
+
+navigator.serviceWorker
+.register('sw.js')
+
+.then(()=>{
+
+console.log(
+'Service Worker registrado'
+);
+
+})
+.catch((erro)=>{
+
+console.log(
+'Erro Service Worker:',
+erro
+);
+
+});
+
+}
+
+</script>
+
+<script>
+
+let deferredPrompt;
+
+window.addEventListener(
+'beforeinstallprompt',
+
+(e)=>{
+
+e.preventDefault();
+
+deferredPrompt = e;
+
+mostrarBotaoInstalar();
+
+});
+
+function mostrarBotaoInstalar(){
+
+if(document.getElementById(
+"btnInstalar"
+)) return;
+
+const botao =
+document.createElement("button");
+
+botao.id = "btnInstalar";
+
+botao.innerHTML =
+"📲 Instalar Aplicativo";
+
+botao.style.position = "fixed";
+botao.style.bottom = "20px";
+botao.style.right = "20px";
+botao.style.padding = "14px 20px";
+botao.style.border = "none";
+botao.style.borderRadius = "12px";
+botao.style.background = "#0066ff";
+botao.style.color = "#fff";
+botao.style.fontSize = "16px";
+botao.style.fontWeight = "bold";
+botao.style.cursor = "pointer";
+botao.style.zIndex = "9999";
+botao.style.boxShadow =
+"0 0 10px rgba(0,0,0,0.3)";
+
+botao.onclick = async ()=>{
+
+if(deferredPrompt){
+
+deferredPrompt.prompt();
+
+await deferredPrompt.userChoice;
+
+deferredPrompt = null;
+
+botao.remove();
+
+}
+
+};
+
+document.body.appendChild(botao);
+
+}
+
+if('serviceWorker' in navigator){
+
+navigator.serviceWorker
+.register('sw.js')
+
+.then(()=>{
+
+console.log(
+'Service Worker registrado'
+);
+
+})
+.catch((erro)=>{
+
+console.log(
+'Erro Service Worker:',
+erro
+);
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
