@@ -89,9 +89,7 @@ body{
 
 background:#ffffff;
 
-min-height:100vh;
-
-overflow-x:hidden;
+height:100vh;
 
 display:flex;
 
@@ -99,7 +97,11 @@ flex-direction:column;
 
 align-items:center;
 
-padding:20px;
+overflow-x:hidden;
+
+overflow-y:auto;
+
+padding:15px;
 
 }
 
@@ -127,37 +129,43 @@ margin-bottom:20px;
 
 display:flex;
 
-gap:12px;
+justify-content:center;
 
-flex-wrap:wrap;
+align-items:center;
+
+width:100%;
+
+margin-top:10px;
+
+margin-bottom:25px;
 
 }
 
 .top-buttons a{
 
-text-decoration:none;
+    text-decoration:none;
 
-padding:12px 20px;
+    padding:12px 20px;
 
-border-radius:12px;
+    border-radius:12px;
 
-background:#111;
+    background:#111;
 
-color:#fff;
+    color:#fff;
 
-font-weight:700;
+    font-weight:700;
 
-transition:.3s;
+    transition:.3s;
 
-box-shadow:0 4px 10px rgba(0,0,0,.15);
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
 
 }
 
 .top-buttons a:hover{
 
-transform:translateY(-3px);
+    transform:translateY(-3px);
 
-box-shadow:0 8px 20px rgba(0,0,0,.25);
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
 
 }
 
@@ -193,6 +201,65 @@ font-family:Consolas;
 
 }
 
+
+.title-container{
+
+    position:relative;
+
+    display:inline-block;
+
+    text-align:center;
+
+}
+
+.title-tooltip{
+
+    position:absolute;
+
+    top:100%;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    margin-top:10px;
+
+    background:#111;
+
+    color:#fff;
+
+    padding:15px 20px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    line-height:1.8;
+
+    white-space:nowrap;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.3s;
+
+    z-index:999;
+
+}
+
+.title-container:hover .title-tooltip{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
 .subtitle{
 
 font-size:20px;
@@ -201,7 +268,7 @@ font-weight:600;
 
 text-align:center;
 
-margin-bottom:35px;
+margin-bottom:20px;
 
 color:#444;
 
@@ -352,102 +419,229 @@ color:#555;
 
 width:100%;
 
-max-width:1600px;
+max-width:700px;
+
+margin:35px auto 25px auto;
 
 display:grid;
 
-grid-template-columns:
-repeat(auto-fit,minmax(320px,1fr));
+grid-template-columns:repeat(2,1fr);
 
-gap:20px;
+column-gap:15px;
 
-margin-bottom:40px;
+row-gap:15px;
+
+justify-content:center;
 
 }
 
 .card{
 
-background:#fff;
+    width:100%;
 
-border-radius:20px;
+    max-width:320px;
 
-padding:25px;
+    margin:0 auto;
 
-text-align:center;
+    background:#fff;
 
-box-shadow:0 0 20px rgba(0,0,0,.12);
+    border-radius:20px;
 
-transition:.35s;
+    padding:25px;
 
-position:relative;
+    text-align:center;
 
-overflow:hidden;
+    box-shadow:0 0 20px rgba(0,0,0,.12);
+
+    transition:.35s;
+
+    position:relative;
+
+    overflow:hidden;
 
 }
 
 .card:hover{
 
-transform:translateY(-8px);
+    transform:translateY(-8px);
 
-box-shadow:0 15px 30px rgba(0,0,0,.20);
+    box-shadow:0 15px 30px rgba(0,0,0,.20);
 
 }
 
 .card::before{
 
-content:"";
+    content:"";
 
-position:absolute;
+    position:absolute;
 
-top:0;
+    top:0;
 
-left:0;
+    left:0;
 
-width:100%;
+    width:100%;
 
-height:5px;
+    height:5px;
 
-background:linear-gradient(
-90deg,
-#0066ff,
-#00cc66,
-#ff6600,
-#ff0066
-);
+    background:linear-gradient(
+        90deg,
+        #0066ff,
+        #00cc66,
+        #ff6600,
+        #ff0066
+    );
 
 }
 
 .card h2{
 
-font-size:24px;
+    font-size:24px;
 
-margin-bottom:20px;
+    margin-bottom:20px;
 
-font-weight:800;
+    font-weight:800;
 
 }
 
 .card-buttons{
 
-display:flex;
+    display:flex;
 
-flex-direction:column;
+    flex-direction:column;
 
-gap:10px;
+    gap:12px;
 
 }
 
 .card-buttons a{
 
-text-decoration:none;
+    text-decoration:none;
 
-padding:12px;
+    padding:12px;
 
-border-radius:12px;
+    border-radius:12px;
 
-font-weight:700;
+    font-weight:700;
 
-transition:.3s;
+    transition:.3s;
+
+}
+
+.card-buttons a:hover{
+
+    transform:scale(1.03);
+
+}
+
+.btn-system{
+
+    background:#0066ff;
+
+    color:#fff;
+
+}
+
+.btn-manual{
+
+    background:#00aa55;
+
+    color:#fff;
+
+}
+
+@media(max-width:1200px){
+
+    .menu{
+
+        max-width:700px;
+
+        gap:20px;
+
+    }
+
+    .card{
+
+        max-width:320px;
+
+    }
+
+}
+
+@media(max-width:900px){
+
+    .menu{
+
+        max-width:700px;
+
+        gap:20px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .menu{
+
+        grid-template-columns:1fr;
+
+        max-width:450px;
+
+        gap:15px;
+
+        margin-top:40px;
+
+    }
+
+    .card{
+
+        width:100%;
+
+        max-width:450px;
+
+    }
+
+    .card h2{
+
+        font-size:22px;
+
+    }
+
+}
+
+@media(max-width:480px){
+
+    .menu{
+
+        max-width:100%;
+
+        gap:12px;
+
+    }
+
+    .card{
+
+        width:100%;
+
+        max-width:100%;
+
+        padding:20px;
+
+    }
+
+    .card h2{
+
+        font-size:20px;
+
+    }
+
+    .card-buttons a{
+
+        padding:10px;
+
+        font-size:14px;
+
+    }
 
 }
 
@@ -475,15 +669,33 @@ transform:scale(1.03);
 
 footer{
 
-margin-top:auto;
+margin-top:20px;
 
-padding:25px;
+padding:10px;
 
 text-align:center;
 
 font-weight:700;
 
 color:#444;
+
+}
+
+.footer-link{
+
+    text-decoration:none;
+
+    color:#444;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+.footer-link:hover{
+
+    color:#0066ff;
 
 }
 
@@ -557,28 +769,42 @@ right:5%;
 
 <body>
 
-<div class="header">
+</div>
 
-    <div class="top-buttons">
+<div class="title-container">
 
-        <a href="Objetivo.pdf" target="_blank">
-            📖 Leia-me
-        </a>
+    <h1 id="title" class="title">
+        PAINT SHOP PREDICTIVE
+    </h1>
 
-        <a href="https://usuario2207ed-hue.github.io/EDCELL-TECH/" target="_blank">
-            🌐 URL
-        </a>
+    <div class="title-tooltip">
+
+        📊 Total de Sistemas: 4<br>
+
+        👥 Acessos Hoje:
+        <span id="acessosHoje">0</span>
+
+        <br>
+
+        🕒 Último Acesso:
+        <span id="ultimoAcesso">--:--</span>
 
     </div>
 
 </div>
 
-<h1 id="title" class="title">
-    PAINT SHOP PREDICTIVE
-</h1>
-
 <div class="subtitle">
     Centro Integrado de Monitoramento e Análise Preditiva
+</div>
+
+<div class="header">
+
+<div class="top-buttons">
+
+    <a href="Objetivo.pdf" target="_blank">
+        📖 Leia-me
+    </a>
+
 </div>
 
 </div>
@@ -650,97 +876,6 @@ target="_blank">
 <div class="card">
 
 <h2>
-🏷️ ZEC Etiquetas
-</h2>
-
-<div class="card-buttons">
-
-<a
-class="btn-system"
-href="main/ZEC-Etiquetas/index.html"
-target="_blank">
-
-Abrir Sistema
-
-</a>
-
-<a
-class="btn-manual"
-href="main/ZEC-Etiquetas/Manual Usuario CENTERLINE ZEC.pdf"
-target="_blank">
-
-❓ Manual
-
-</a>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>
-📈 ZEC Vision
-</h2>
-
-<div class="card-buttons">
-
-<a
-class="btn-system"
-href="main/ZEC-Vision/index.html"
-target="_blank">
-
-Abrir Sistema
-
-</a>
-
-<a
-class="btn-manual"
-href="main/ZEC-Vision/Manual Usuario ZEC Vision.pdf"
-target="_blank">
-
-❓ Manual
-
-</a>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>
-🥧 Gráfico Pizza
-</h2>
-
-<div class="card-buttons">
-
-<a
-class="btn-system"
-href="main/ZEC-Graficos/ZEC-Grafico de pizza/index.html"
-target="_blank">
-
-Abrir Sistema
-
-</a>
-
-<a
-class="btn-manual"
-href="main/ZEC-Graficos/ZEC-Grafico de pizza/Manual Usuario ZEC Grafico.pdf"
-target="_blank">
-
-❓ Manual
-
-</a>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>
 📉 Gráfico Pareto
 </h2>
 
@@ -771,14 +906,14 @@ target="_blank">
 <div class="card">
 
 <h2>
-📈 Gráfico Linhas
+🏷️ ZEC Etiquetas
 </h2>
 
 <div class="card-buttons">
 
 <a
 class="btn-system"
-href="main/ZEC-Graficos/ZEC-Grafico de linhas/index.html"
+href="main/ZEC-Etiquetas/index.html"
 target="_blank">
 
 Abrir Sistema
@@ -787,7 +922,7 @@ Abrir Sistema
 
 <a
 class="btn-manual"
-href="main/ZEC-Graficos/ZEC-Grafico de linhas/Manual Usuario ZEC Grafico.pdf"
+href="main/ZEC-Etiquetas/Manual Usuario CENTERLINE ZEC.pdf"
 target="_blank">
 
 ❓ Manual
@@ -797,47 +932,76 @@ target="_blank">
 </div>
 
 </div>
-
-<div class="card">
-
-<h2>
-📊 Gráfico Colunas
-</h2>
-
-<div class="card-buttons">
-
-<a
-class="btn-system"
-href="main/ZEC-Graficos/ZEC-Grafico de colunas/index.html"
-target="_blank">
-
-Abrir Sistema
-
-</a>
-
-<a
-class="btn-manual"
-href="main/ZEC-Graficos/ZEC-Grafico de colunas/Manual Usuario ZEC Grafico.pdf"
-target="_blank">
-
-❓ Manual
-
-</a>
-
-</div>
-
-</div>
-
 </div>
 
 <footer>
 
-Desenvolvido por:
-EdcellTech
+<a
+href="https://usuario2207ed-hue.github.io/EDCELL-TECH/"
+target="_blank"
+class="footer-link"
+>
+
+Desenvolvido por EdcellTech
+
+</a>
 
 </footer>
 
 <script>
+
+const hoje = new Date();
+
+const horaAtual = hoje.toLocaleTimeString(
+    "pt-BR",
+    {
+        hour:"2-digit",
+        minute:"2-digit"
+    }
+);
+
+const visitasHoje =
+
+parseInt(
+localStorage.getItem(
+"zec_visitas_hoje"
+)
+) || 0;
+
+localStorage.setItem(
+"zec_visitas_hoje",
+visitasHoje + 1
+);
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+    const acessos =
+    document.getElementById(
+    "acessosHoje"
+    );
+
+    const ultimo =
+    document.getElementById(
+    "ultimoAcesso"
+    );
+
+    if(acessos){
+
+        acessos.innerHTML =
+        visitasHoje + 1;
+
+    }
+
+    if(ultimo){
+
+        ultimo.innerHTML =
+        horaAtual;
+
+    }
+
+});
 
 
 const cores = [
@@ -1100,14 +1264,18 @@ let indiceRodape = 0;
 
 setInterval(()=>{
 
-    document.querySelector("footer").innerHTML =
-
-    `
-    Desenvolvido por:
-    EdcellTech
-    <br>
-    ${frasesRodape[indiceRodape]}
-    `;
+document.querySelector("footer").innerHTML =
+`
+<a
+href="https://usuario2207ed-hue.github.io/EDCELL-TECH/"
+target="_blank"
+class="footer-link"
+>
+Desenvolvido por EdcellTech
+</a>
+<br>
+${frasesRodape[indiceRodape]}
+`;
 
     indiceRodape++;
 
