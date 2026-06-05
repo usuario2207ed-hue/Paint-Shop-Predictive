@@ -767,7 +767,131 @@ right:5%;
 
 </head>
 
+<script>
+
+const LOGIN_PADRAO = "ADMIN";
+const SENHA_PADRAO = "136763";
+
+function validarLogin(){
+
+    const usuario =
+    document.getElementById("usuario").value.trim();
+
+    const senha =
+    document.getElementById("senha").value.trim();
+
+    if(
+        usuario === LOGIN_PADRAO &&
+        senha === SENHA_PADRAO
+    ){
+
+        sessionStorage.setItem(
+            "autenticado",
+            "sim"
+        );
+
+        document.getElementById(
+            "loginOverlay"
+        ).style.display = "none";
+
+        mostrarBotoesProtegidos();
+
+    }else{
+
+        document.getElementById(
+            "erroLogin"
+        ).innerText =
+        "Usuário ou senha incorretos";
+
+    }
+}
+
+function mostrarBotoesProtegidos(){
+
+    document
+    .querySelectorAll(".admin-only")
+    .forEach(botao=>{
+        botao.style.display="";
+    });
+
+}
+
+window.onload = function(){
+
+    if(
+        sessionStorage.getItem(
+            "autenticado"
+        ) === "sim"
+    ){
+
+        document.getElementById(
+            "loginOverlay"
+        ).style.display="none";
+
+        mostrarBotoesProtegidos();
+    }
+
+};
+
+</script>
+
 <body>
+
+<div id="loginOverlay" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000000ee;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999999;
+">
+
+<div style="
+background:white;
+padding:30px;
+border-radius:10px;
+width:300px;
+text-align:center;
+">
+
+<h2>🔒 Acesso Restrito</h2>
+
+<input
+type="text"
+id="usuario"
+placeholder="Usuário"
+style="width:100%;padding:10px;margin:5px 0;"
+>
+
+<input
+type="password"
+id="senha"
+placeholder="Senha"
+style="width:100%;padding:10px;margin:5px 0;"
+>
+
+<button
+onclick="validarLogin()"
+style="
+width:100%;
+padding:10px;
+background:#007bff;
+color:white;
+border:none;
+cursor:pointer;
+"
+>
+Entrar
+</button>
+
+<p id="erroLogin" style="color:red;"></p>
+
+</div>
+</div>
 
 </div>
 
