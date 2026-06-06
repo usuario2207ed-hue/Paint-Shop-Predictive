@@ -769,7 +769,7 @@ right:5%;
 
 <script>
 
-const LOGIN_PADRAO = "ADMIN";
+const LOGIN_PADRAO = "Admin";
 const SENHA_PADRAO = "136763";
 
 function validarLogin(){
@@ -779,6 +779,9 @@ function validarLogin(){
 
     const senha =
     document.getElementById("senha").value.trim();
+
+    const salvar =
+    document.getElementById("salvarLogin").checked;
 
     if(
         usuario === LOGIN_PADRAO &&
@@ -790,11 +793,33 @@ function validarLogin(){
             "sim"
         );
 
+        if(salvar){
+
+            localStorage.setItem(
+                "usuarioSalvo",
+                usuario
+            );
+
+            localStorage.setItem(
+                "senhaSalva",
+                senha
+            );
+
+            localStorage.setItem(
+                "salvarLogin",
+                "sim"
+            );
+
+        }else{
+
+            localStorage.clear();
+
+        }
+
         document.getElementById(
             "loginOverlay"
-        ).style.display = "none";
-
-        mostrarBotoesProtegidos();
+        ).style.display =
+        "none";
 
     }else{
 
@@ -804,19 +829,42 @@ function validarLogin(){
         "Usuário ou senha incorretos";
 
     }
-}
-
-function mostrarBotoesProtegidos(){
-
-    document
-    .querySelectorAll(".admin-only")
-    .forEach(botao=>{
-        botao.style.display="";
-    });
 
 }
 
 window.onload = function(){
+
+    const usuarioSalvo =
+    localStorage.getItem(
+        "usuarioSalvo"
+    );
+
+    const senhaSalva =
+    localStorage.getItem(
+        "senhaSalva"
+    );
+
+    if(
+        usuarioSalvo &&
+        senhaSalva
+    ){
+
+        document.getElementById(
+            "usuario"
+        ).value =
+        usuarioSalvo;
+
+        document.getElementById(
+            "senha"
+        ).value =
+        senhaSalva;
+
+        document.getElementById(
+            "salvarLogin"
+        ).checked =
+        true;
+
+    }
 
     if(
         sessionStorage.getItem(
@@ -826,14 +874,15 @@ window.onload = function(){
 
         document.getElementById(
             "loginOverlay"
-        ).style.display="none";
+        ).style.display =
+        "none";
 
-        mostrarBotoesProtegidos();
     }
 
 };
 
 </script>
+
 
 <body>
 
@@ -874,6 +923,23 @@ placeholder="Senha"
 style="width:100%;padding:10px;margin:5px 0;"
 >
 
+<label style="
+display:flex;
+align-items:center;
+gap:8px;
+margin:10px 0;
+font-size:14px;
+">
+
+<input
+type="checkbox"
+id="salvarLogin"
+>
+
+Salvar senha
+
+</label>
+
 <button
 onclick="validarLogin()"
 style="
@@ -883,8 +949,7 @@ background:#007bff;
 color:white;
 border:none;
 cursor:pointer;
-"
->
+">
 Entrar
 </button>
 
@@ -892,6 +957,7 @@ Entrar
 
 </div>
 </div>
+
 
 </div>
 
