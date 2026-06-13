@@ -1,890 +1,540 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control Center</title>
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-Paint Shop Predictive
-</title>
-
-<link rel="manifest" href="manifest.json">
-
-<meta name="theme-color" content="#0066ff">
-
-<link rel="icon" href="icon-192.png">
-
-<link rel="apple-touch-icon" href="icon-192.png">
-
-<meta name="mobile-web-app-capable" content="yes">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap"
-rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 <style>
-
-#installBtn{
-
-position:fixed;
-
-top:20px;
-
-right:20px;
-
-z-index:99999;
-
-padding:14px 22px;
-
-border:none;
-
-border-radius:12px;
-
-background:#0066ff;
-
-color:#fff;
-
-font-size:15px;
-
-font-weight:700;
-
-cursor:pointer;
-
-display:none;
-
-box-shadow:0 5px 20px rgba(0,0,0,.25);
-
-transition:.3s;
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-#installBtn:hover{
-
-transform:scale(1.05);
-
-background:#004dcc;
-
+body {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: flex-start; 
+    
+    align-items: center;
+    background: #061118; 
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    
+    padding: 120px 20px 30px 20px; 
+    
+    overflow-x: hidden;
+    overflow-y: auto; 
 }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+.mes-dashboard-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: #0b1e28;
+    border-bottom: 2px solid #00f7ff33;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+    z-index: 9999;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
-body{
-
-background:#ffffff;
-
-height:100vh;
-
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-overflow-x:hidden;
-
-overflow-y:auto;
-
-padding:15px;
-
+.mes-title {
+    color: #00f7ff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.header{
-
-width:100%;
-
-max-width:1600px;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-flex-wrap:wrap;
-
-gap:15px;
-
-margin-bottom:20px;
-
+.mes-title i {
+    font-size: 16px;
+    animation: pulseGlow 2s infinite alternate;
 }
 
-.top-buttons{
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-width:100%;
-
-margin-top:10px;
-
-margin-bottom:25px;
-
+.mes-system-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #ffffff;
+    font-size: 13px;
+    font-family: monospace;
 }
 
-.top-buttons a{
-
-    text-decoration:none;
-
-    padding:12px 20px;
-
-    border-radius:12px;
-
-    background:#111;
-
-    color:#fff;
-
-    font-weight:700;
-
-    transition:.3s;
-
-    box-shadow:0 4px 10px rgba(0,0,0,.15);
-
+.mes-time-block {
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+    padding-right: 20px;
+    letter-spacing: 1px;
 }
 
-.top-buttons a:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:0 8px 20px rgba(0,0,0,.25);
-
+.mes-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #00ff66;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
 }
 
-.clock{
-
-font-size:18px;
-
-font-weight:700;
-
-padding:12px 18px;
-
-border-radius:12px;
-
-background:#111;
-
-color:#00ff88;
-
-font-family:Consolas;
-
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00ff66;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00ff66;
+    animation: blinkStatus 1.5s infinite;
 }
 
-.title{
-
-    font-size:clamp(34px,6vw,70px);
-
-    font-weight:900;
-
-    text-align:center;
-
-    color:#0066ff;
-
-    transition:color 3s ease;
-
+@keyframes blinkStatus {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
 }
 
-
-.title-container{
-
-    position:relative;
-
-    display:inline-block;
-
-    text-align:center;
-
+@keyframes pulseGlow {
+    0% { text-shadow: 0 0 4px #00f7ff; }
+    100% { text-shadow: 0 0 12px #00f7ff, 0 0 20px #00f7ff; }
 }
 
-.title-tooltip{
-
-    position:absolute;
-
-    top:100%;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    margin-top:10px;
-
-    background:#111;
-
-    color:#fff;
-
-    padding:15px 20px;
-
-    border-radius:12px;
-
-    font-size:14px;
-
-    font-weight:600;
-
-    line-height:1.8;
-
-    white-space:nowrap;
-
-    box-shadow:0 8px 25px rgba(0,0,0,.25);
-
-    opacity:0;
-
-    visibility:hidden;
-
-    transition:.3s;
-
-    z-index:999;
-
+#intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    z-index: 9999999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: monospace;
+    color: #00f7ff;
+    padding: 20px;
+    transition: opacity 0.8s ease;
 }
 
-.title-container:hover .title-tooltip{
-
-    opacity:1;
-
-    visibility:visible;
-
+.intro-terminal-box {
+    width: 100%;
+    max-width: 450px;
+    text-align: left;
+    margin-bottom: 30px;
+    height: 120px;
 }
 
-.subtitle{
-
-font-size:20px;
-
-font-weight:600;
-
-text-align:center;
-
-margin-bottom:20px;
-
-color:#444;
-
+.intro-brand {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
 }
 
-.marquee-container{
-
-width:100%;
-
-max-width:1600px;
-
-overflow:hidden;
-
-background:#111;
-
-color:#fff;
-
-padding:14px;
-
-border-radius:15px;
-
-margin-bottom:25px;
-
-box-shadow:0 5px 15px rgba(0,0,0,.15);
-
+.intro-log-line {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #00f7ffb3;
+    display: none;
 }
 
-.marquee{
-
-white-space:nowrap;
-
-display:inline-block;
-
-padding-left:100%;
-
-font-weight:bold;
-
-animation:marquee 1s linear infinite;
-
+.intro-logo-atom-container {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-bottom: 20px;
 }
 
-@keyframes marquee{
-
-0%{
-transform:translateX(0);
+.intro-logo-atom-container.visible {
+    opacity: 1;
+    transform: scale(1);
 }
 
-100%{
-transform:translateX(-100%);
+.intro-paintshop-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease;
+    text-shadow: 0 0 15px rgba(0, 247, 255, 0.6);
 }
 
+.intro-paintshop-title.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.search-box{
-
-width:100%;
-
-max-width:800px;
-
-margin-bottom:25px;
-
+#atom-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px; 
+    height: 38vh;      
+    min-height: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 130px; 
+    container-type: inline-size; 
 }
 
-.search-box input{
-
-width:100%;
-
-padding:16px;
-
-font-size:16px;
-
-border:2px solid #ddd;
-
-border-radius:14px;
-
-outline:none;
-
-transition:.3s;
-
+.nucleus {
+    position: absolute;
+    z-index: 10;
+    text-align: center;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 75%; 
 }
 
-.search-box input:focus{
-
-border-color:#0066ff;
-
+.nucleus h3 {
+    color: #ffffff;
+    font-size: clamp(22px, 7.5cqw, 36px); 
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    user-select: none;
+    text-shadow: 
+        0 0 10px rgba(255, 255, 255, 1),
+        0 0 20px rgba(255, 255, 255, 0.8),
+        0 0 40px rgba(0, 247, 255, 0.5);
 }
 
-.stats{
-
-width:100%;
-
-max-width:1600px;
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
-
-gap:15px;
-
-margin-bottom:30px;
-
+.nucleus p {
+    color: #ffffff;
+    font-size: clamp(8px, 2.8cqw, 11px); 
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-top: 4px; 
+    opacity: 0.9;
+    white-space: nowrap;
 }
 
-.stat-card{
-
-background:#fff;
-
-border-radius:18px;
-
-padding:25px;
-
-text-align:center;
-
-box-shadow:0 0 20px rgba(0,0,0,.12);
-
-transition:.3s;
-
+.atom-svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    transform: scale(1.60); 
+    transform-origin: center;
 }
 
-.stat-card:hover{
-
-transform:translateY(-5px);
-
+.orbit-trail {
+    fill: none;
+    stroke-width: 5; 
+    stroke-linecap: round;
 }
 
-.stat-value{
+.orbit-group-1 { transform: translate(350px, 350px) rotate(0deg) scaleY(0.32); }
+.orbit-trail-1 { stroke: url(#cyan-grad); filter: url(#glow-heavy-cyan); animation: rotateAtom 3s linear infinite; }
 
-font-size:42px;
+.orbit-group-2 { transform: translate(350px, 350px) rotate(78deg) scaleY(0.32); }
+.orbit-trail-2 { stroke: url(#magenta-grad); filter: url(#glow-heavy-magenta); animation: rotateAtom 4s linear infinite; }
 
-font-weight:900;
+.orbit-group-3 { transform: translate(350px, 350px) rotate(-55deg) scaleY(0.32); }
+.orbit-trail-3 { stroke: url(#gold-grad); filter: url(#glow-heavy-gold); animation: rotateAtom 2.6s linear infinite; }
 
-color:#0066ff;
+.orbit-group-4 { transform: translate(350px, 350px) rotate(40deg) scaleY(0.32); }
+.orbit-trail-4 { stroke: url(#blue-grad); filter: url(#glow-heavy-blue); animation: rotateAtom 3.5s linear infinite; }
 
+@keyframes rotateAtom {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
 }
 
-.stat-label{
-
-font-size:14px;
-
-font-weight:700;
-
-color:#555;
-
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 16px;      
+    z-index: 20;
+    width: 100%;
+    max-width: 940px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 }
 
-.menu{
-
-width:100%;
-
-max-width:700px;
-
-margin:35px auto 25px auto;
-
-display:grid;
-
-grid-template-columns:repeat(2,1fr);
-
-column-gap:15px;
-
-row-gap:15px;
-
-justify-content:center;
-
+.animated-button {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Alinhamento do ícone */
+    padding: clamp(11px, 1.8vh, 15px) 10px; 
+    font-size: clamp(12px, 1.6vh, 14px);      
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(0, 247, 255, 0.35);
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    white-space: nowrap; 
 }
 
-.card{
-
-    width:100%;
-
-    max-width:320px;
-
-    margin:0 auto;
-
-    background:#fff;
-
-    border-radius:20px;
-
-    padding:25px;
-
-    text-align:center;
-
-    box-shadow:0 0 20px rgba(0,0,0,.12);
-
-    transition:.35s;
-
-    position:relative;
-
-    overflow:hidden;
-
+.animated-button i {
+    font-size: 14px;
+    color: #00f7ff;
+    transition: transform 0.3s ease;
 }
 
-.card:hover{
-
-    transform:translateY(-8px);
-
-    box-shadow:0 15px 30px rgba(0,0,0,.20);
-
+.animated-button:hover {
+    background: rgba(0, 247, 255, 0.15);
+    border-color: #00f7ff;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 247, 255, 0.4);
 }
 
-.card::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-
-    left:0;
-
-    width:100%;
-
-    height:5px;
-
-    background:linear-gradient(
-        90deg,
-        #0066ff,
-        #00cc66,
-        #ff6600,
-        #ff0066
-    );
-
+.animated-button:hover i {
+    transform: scale(1.15);
 }
 
-.card h2{
-
-    font-size:24px;
-
-    margin-bottom:20px;
-
-    font-weight:800;
-
+footer {
+    margin-top: auto; 
+    padding-top: 20px;
+    padding-bottom: 10px;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: clamp(10px, 1.3vh, 12px);
+    letter-spacing: 1.5px;
+    text-align: center;
+    z-index: 20;
+    font-family: monospace;
 }
 
-.card-buttons{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:12px;
-
-}
-
-.card-buttons a{
-
-    text-decoration:none;
-
-    padding:12px;
-
-    border-radius:12px;
-
-    font-weight:700;
-
-    transition:.3s;
-
-}
-
-.card-buttons a:hover{
-
-    transform:scale(1.03);
-
-}
-
-.btn-system{
-
-    background:#0066ff;
-
-    color:#fff;
-
-}
-
-.btn-manual{
-
-    background:#00aa55;
-
-    color:#fff;
-
-}
-
-@media(max-width:1200px){
-
-    .menu{
-
-        max-width:700px;
-
-        gap:20px;
-
+@media (max-width: 768px) {
+    body {
+        justify-content: flex-start; 
+        padding-top: 100px;
     }
-
-    .card{
-
-        max-width:320px;
-
+    .mes-dashboard-header {
+        padding: 0 15px;
+        height: 60px;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
     }
-
-}
-
-@media(max-width:900px){
-
-    .menu{
-
-        max-width:700px;
-
-        gap:20px;
-
+    .mes-time-block {
+        border-right: none;
+        padding-right: 0;
     }
-
-}
-
-@media(max-width:768px){
-
-    .menu{
-
-        grid-template-columns:1fr;
-
-        max-width:450px;
-
-        gap:15px;
-
-        margin-top:40px;
-
+    .button-container {
+        grid-template-columns: repeat(2, 1fr); 
+        max-width: 460px;
+        gap: 12px;
     }
-
-    .card{
-
-        width:100%;
-
-        max-width:450px;
-
+    #atom-container {
+        height: 32vh; 
+        min-height: 220px;
+        margin-bottom: 30px;
     }
-
-    .card h2{
-
-        font-size:22px;
-
-    }
-
 }
-
-@media(max-width:480px){
-
-    .menu{
-
-        max-width:100%;
-
-        gap:12px;
-
-    }
-
-    .card{
-
-        width:100%;
-
-        max-width:100%;
-
-        padding:20px;
-
-    }
-
-    .card h2{
-
-        font-size:20px;
-
-    }
-
-    .card-buttons a{
-
-        padding:10px;
-
-        font-size:14px;
-
-    }
-
-}
-
-.btn-system{
-
-background:#0066ff;
-
-color:#fff;
-
-}
-
-.btn-manual{
-
-background:#00aa55;
-
-color:#fff;
-
-}
-
-.card-buttons a:hover{
-
-transform:scale(1.03);
-
-}
-
-footer{
-
-margin-top:20px;
-
-padding:10px;
-
-text-align:center;
-
-font-weight:700;
-
-color:#444;
-
-}
-
-.footer-link{
-
-    text-decoration:none;
-
-    color:#444;
-
-    font-weight:700;
-
-    transition:.3s;
-
-}
-
-.footer-link:hover{
-
-    color:#0066ff;
-
-}
-
-.notification{
-
-position:fixed;
-
-bottom:20px;
-
-right:20px;
-
-width:340px;
-
-background:#111;
-
-color:#fff;
-
-padding:18px;
-
-border-radius:15px;
-
-box-shadow:0 0 25px rgba(0,0,0,.35);
-
-z-index:9999;
-
-animation:fadeIn .5s;
-
-}
-
-@keyframes fadeIn{
-
-from{
-opacity:0;
-transform:translateY(20px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
-
-}
-
-@media(max-width:768px){
-
-.header{
-
-justify-content:center;
-
-}
-
-.clock{
-
-width:100%;
-text-align:center;
-
-}
-
-.notification{
-
-width:90%;
-right:5%;
-
-}
-
-}
-
 </style>
-
 </head>
 
 <script>
-
 const LOGIN_PADRAO = "Admin";
 const SENHA_PADRAO = "136763";
 
+function iniciarRelogio() {
+    function atualizarHorario() {
+        const agora = new Date();
+        const dia = String(agora.getDate()).padStart(2, '0');
+        const mes = String(agora.getMonth() + 1).padStart(2, '0');
+        const ano = agora.getFullYear();
+        
+        const horas = String(agora.getHours()).padStart(2, '0');
+        const minutos = String(agora.getMinutes()).padStart(2, '0');
+        const segundos = String(agora.getSeconds()).padStart(2, '0');
+        
+        const stringData = `${dia}/${mes}/${ano}`;
+        const stringHora = `${horas}:${minutos}:${segundos}`;
+        
+        const elementoDisplay = document.getElementById("mes-live-time");
+        if (elementoDisplay) {
+            elementoDisplay.innerText = `${stringData} | ${stringHora}`;
+        }
+    }
+    atualizarHorario();
+    setInterval(atualizarHorario, 1000);
+}
+
+function executarAnimacaoEntrada(callback) {
+    const logs = [
+        "Control Center",
+        "Initializing System...",
+        "Loading Modules...",
+        "Connecting...",
+        "Ready."
+    ];
+    
+    const containerLogs = document.getElementById("intro-logs");
+    
+    let i = 0;
+    function printNextLog() {
+        if (i < logs.length) {
+            const line = document.createElement("div");
+            line.className = "intro-log-line";
+            line.style.display = "block";
+            
+            if (i === 0) {
+                line.className = "intro-brand";
+            }
+            
+            line.innerText = logs[i];
+            containerLogs.appendChild(line);
+            i++;
+            setTimeout(printNextLog, 450);
+        } else {
+
+            setTimeout(() => {
+                document.getElementById("intro-atom").classList.add("visible");
+            }, 200);
+
+
+            setTimeout(() => {
+                document.getElementById("intro-title").classList.add("visible");
+            }, 800);
+
+
+            setTimeout(() => {
+                const overlay = document.getElementById("intro-overlay");
+                overlay.style.opacity = "0";
+                setTimeout(() => {
+                    overlay.style.display = "none";
+                    if (callback) callback();
+                }, 800);
+            }, 2800);
+        }
+    }
+    printNextLog();
+}
+
 function validarLogin(){
+    const usuario = document.getElementById("usuario").value.trim();
+    const senha = document.getElementById("senha").value.trim();
+    const salvar = document.getElementById("salvarLogin").checked;
 
-    const usuario =
-    document.getElementById("usuario").value.trim();
-
-    const senha =
-    document.getElementById("senha").value.trim();
-
-    const salvar =
-    document.getElementById("salvarLogin").checked;
-
-    if(
-        usuario === LOGIN_PADRAO &&
-        senha === SENHA_PADRAO
-    ){
-
-        sessionStorage.setItem(
-            "autenticado",
-            "sim"
-        );
+    if(usuario === LOGIN_PADRAO && senha === SENHA_PADRAO){
+        sessionStorage.setItem("autenticado", "sim");
 
         if(salvar){
-
-            localStorage.setItem(
-                "usuarioSalvo",
-                usuario
-            );
-
-            localStorage.setItem(
-                "senhaSalva",
-                senha
-            );
-
-            localStorage.setItem(
-                "salvarLogin",
-                "sim"
-            );
-
+            localStorage.setItem("usuarioSalvo", usuario);
+            localStorage.setItem("senhaSalva", senha);
+            localStorage.setItem("salvarLogin", "sim");
         }else{
-
             localStorage.clear();
-
         }
 
-        document.getElementById(
-            "loginOverlay"
-        ).style.display =
-        "none";
-
+        document.getElementById("loginOverlay").style.display = "none";
     }else{
-
-        document.getElementById(
-            "erroLogin"
-        ).innerText =
-        "Usuário ou senha incorretos";
-
+        document.getElementById("erroLogin").innerText = "Usuário ou senha incorretos";
     }
-
 }
 
 window.onload = function(){
 
-    const usuarioSalvo =
-    localStorage.getItem(
-        "usuarioSalvo"
-    );
+    iniciarRelogio();
 
-    const senhaSalva =
-    localStorage.getItem(
-        "senhaSalva"
-    );
 
-    if(
-        usuarioSalvo &&
-        senhaSalva
-    ){
+    executarAnimacaoEntrada(function() {
 
-        document.getElementById(
-            "usuario"
-        ).value =
-        usuarioSalvo;
+        const usuarioSalvo = localStorage.getItem("usuarioSalvo");
+        const senhaSalva = localStorage.getItem("senhaSalva");
 
-        document.getElementById(
-            "senha"
-        ).value =
-        senhaSalva;
+        if(usuarioSalvo && senhaSalva){
+            document.getElementById("usuario").value = usuarioSalvo;
+            document.getElementById("senha").value = senhaSalva;
+            document.getElementById("salvarLogin").checked = true;
+        }
 
-        document.getElementById(
-            "salvarLogin"
-        ).checked =
-        true;
-
-    }
-
-    if(
-        sessionStorage.getItem(
-            "autenticado"
-        ) === "sim"
-    ){
-
-        document.getElementById(
-            "loginOverlay"
-        ).style.display =
-        "none";
-
-    }
-
+        if(sessionStorage.getItem("autenticado") === "sim"){
+            document.getElementById("loginOverlay").style.display = "none";
+        }
+    });
 };
 
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) { 
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) { 
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) { 
+            document.documentElement.msRequestFullscreen();
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { 
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { 
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { 
+            document.msExitFullscreen();
+        }
+    }
+}
 </script>
 
-
 <body>
+
+<div class="mes-dashboard-header">
+    <div class="mes-title">
+        <i class="fa-solid fa-desktop"></i>
+        <span>CONTROL CENTER</span>
+    </div>
+    <div class="mes-system-info">
+        <div class="mes-time-block" id="mes-live-time">00/00/2026 | 00:00:00</div>
+        <div class="mes-status">
+            <span class="status-dot"></span>
+            <span>ONLINE</span>
+        </div>
+    </div>
+</div>
+
+<div id="intro-overlay">
+    <div class="intro-terminal-box" id="intro-logs">
+        </div>
+    
+    <div class="intro-logo-atom-container" id="intro-atom">
+        <svg viewBox="0 0 700 700" style="width:100%; height:100%; transform: scale(1.2);">
+            <g class="orbit-group-1"><path class="orbit-trail orbit-trail-1" d="M 0,-250 A 250,250 0 1,1 -0.1,-250" /></g>
+            <g class="orbit-group-2"><path class="orbit-trail orbit-trail-2" d="M 0,-250 A 250,250 0 1,1 -0.1,-250" /></g>
+            <g class="orbit-group-3"><path class="orbit-trail orbit-trail-3" d="M 0,-250 A 250,250 0 1,1 -0.1,-250" /></g>
+            <g class="orbit-group-4"><path class="orbit-trail orbit-trail-4" d="M 0,-250 A 250,250 0 1,1 -0.1,-250" /></g>
+        </svg>
+    </div>
+    
+    <div class="intro-paintshop-title" id="intro-title">WELCOME</div>
+</div>
 
 <div id="loginOverlay" style="
 position:fixed;
@@ -892,48 +542,55 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:#000000ee;
+background:#061118fa;
 display:flex;
 justify-content:center;
 align-items:center;
-z-index:999999;
+z-index:99999;
 ">
 
 <div style="
-background:white;
+background: #0b1e28;
 padding:30px;
 border-radius:10px;
-width:300px;
+width:320px;
 text-align:center;
+border: 1px solid #00f7ff33;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 ">
 
-<h2>🔒 Acesso Restrito</h2>
+<h2 style="color: #ffffff; font-size: 20px; margin-bottom: 20px; font-weight: 600; letter-spacing: 1px;">
+    <i class="fa-solid fa-lock" style="color:#00f7ff; margin-right: 8px;"></i> Acesso Restrito
+</h2>
 
 <input
 type="text"
 id="usuario"
 placeholder="Usuário"
-style="width:100%;padding:10px;margin:5px 0;"
+style="width:100%; padding:12px; margin:8px 0; background: #061118; border: 1px solid rgba(0,247,255,0.2); color: white; border-radius: 6px; outline: none; font-size: 14px;"
 >
 
 <input
 type="password"
 id="senha"
 placeholder="Senha"
-style="width:100%;padding:10px;margin:5px 0;"
+style="width:100%; padding:12px; margin:8px 0; background: #061118; border: 1px solid rgba(0,247,255,0.2); color: white; border-radius: 6px; outline: none; font-size: 14px;"
 >
 
 <label style="
 display:flex;
 align-items:center;
 gap:8px;
-margin:10px 0;
-font-size:14px;
+margin:15px 0;
+font-size:13px;
+color: rgba(255,255,255,0.7);
+cursor: pointer;
 ">
 
 <input
 type="checkbox"
 id="salvarLogin"
+style="accent-color: #00f7ff;"
 >
 
 Salvar senha
@@ -944,654 +601,144 @@ Salvar senha
 onclick="validarLogin()"
 style="
 width:100%;
-padding:10px;
-background:#007bff;
-color:white;
+padding:12px;
+background:#00f7ff;
+color:#061118;
 border:none;
+font-weight: bold;
+border-radius: 6px;
 cursor:pointer;
+font-size: 14px;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px rgba(0, 247, 255, 0.3);
 ">
-Entrar
+ENTRAR
 </button>
 
-<p id="erroLogin" style="color:red;"></p>
+<p id="erroLogin" style="color:#ff3366; font-size: 13px; margin-top: 12px; font-weight: 500;"></p>
 
 </div>
 </div>
 
-
-</div>
-
-<div class="title-container">
-
-    <h1 id="title" class="title">
-        PAINT SHOP PREDICTIVE
-    </h1>
-
-    <div class="title-tooltip">
-
-        📊 Total de Sistemas: 4<br>
-
-        👥 Acessos Hoje:
-        <span id="acessosHoje">0</span>
-
-        <br>
-
-        🕒 Último Acesso:
-        <span id="ultimoAcesso">--:--</span>
-
+<div id="atom-container">
+    
+    <div class="nucleus">
+        <h3 onclick="toggleFullscreen()">PAINT SHOP</h3>
+        <p>Tecnologia • Inovação • Futuro</p>
     </div>
 
+    <svg class="atom-svg" viewBox="0 0 700 700">
+        <defs>
+            <filter id="glow-heavy-cyan" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1" result="blur1"/>
+                <feGaussianBlur stdDeviation="6" result="blur2"/>
+                <feGaussianBlur stdDeviation="16" result="blur3"/>
+                <feMerge>
+                    <feMergeNode in="blur3"/>
+                    <feMergeNode in="blur2"/>
+                    <feMergeNode in="blur1"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+            
+            <filter id="glow-heavy-magenta" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1" result="blur1"/>
+                <feGaussianBlur stdDeviation="8" result="blur2"/>
+                <feGaussianBlur stdDeviation="20" result="blur3"/>
+                <feMerge>
+                    <feMergeNode in="blur3"/>
+                    <feMergeNode in="blur2"/>
+                    <feMergeNode in="blur1"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <filter id="glow-heavy-gold" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1" result="blur1"/>
+                <feGaussianBlur stdDeviation="7" result="blur2"/>
+                <feGaussianBlur stdDeviation="15" result="blur3"/>
+                <feMerge>
+                    <feMergeNode in="blur3"/>
+                    <feMergeNode in="blur2"/>
+                    <feMergeNode in="blur1"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <filter id="glow-heavy-blue" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1" result="blur1"/>
+                <feGaussianBlur stdDeviation="9" result="blur2"/>
+                <feGaussianBlur stdDeviation="18" result="blur3"/>
+                <feMerge>
+                    <feMergeNode in="blur3"/>
+                    <feMergeNode in="blur2"/>
+                    <feMergeNode in="blur1"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <linearGradient id="cyan-grad" x1="1" y1="0.4" x2="0" y2="0.6">
+                <stop offset="0%" stop-color="#00f7ff" stop-opacity="1"/>
+                <stop offset="30%" stop-color="#00d8ff" stop-opacity="0.8"/>
+                <stop offset="65%" stop-color="#0088cc" stop-opacity="0.2"/>
+                <stop offset="85%" stop-color="#004477" stop-opacity="0.0"/>
+            </linearGradient>
+
+            <linearGradient id="magenta-grad" x1="1" y1="0.4" x2="0" y2="0.6">
+                <stop offset="0%" stop-color="#ff1493" stop-opacity="1"/>
+                <stop offset="25%" stop-color="#ff0064" stop-opacity="0.75"/>
+                <stop offset="60%" stop-color="#aa0044" stop-opacity="0.2"/>
+                <stop offset="85%" stop-color="#550022" stop-opacity="0.0"/>
+            </linearGradient>
+
+            <linearGradient id="gold-grad" x1="1" y1="0.4" x2="0" y2="0.6">
+                <stop offset="0%" stop-color="#ffb737" stop-opacity="1"/>
+                <stop offset="30%" stop-color="#e29e24" stop-opacity="0.75"/>
+                <stop offset="65%" stop-color="#8a5a00" stop-opacity="0.15"/>
+                <stop offset="85%" stop-color="#442c00" stop-opacity="0.0"/>
+            </linearGradient>
+
+            <linearGradient id="blue-grad" x1="1" y1="0.4" x2="0" y2="0.6">
+                <stop offset="0%" stop-color="#7b68ee" stop-opacity="1"/>
+                <stop offset="35%" stop-color="#5c4ae4" stop-opacity="0.7"/>
+                <stop offset="70%" stop-color="#2a004d" stop-opacity="0.12"/>
+                <stop offset="85%" stop-color="#110022" stop-opacity="0.0"/>
+            </linearGradient>
+        </defs>
+
+        <g class="orbit-group-1">
+            <path class="orbit-trail orbit-trail-1" d="M 0,-250 A 250,250 0 1,1 -0.1,-250" />
+        </g>
+
+        <g class="orbit-group-2">
+            <path class="orbit-trail orbit-trail-2" d="M 0,-250 A 250,250 0 1,1 -0.1,-250" />
+        </g>
+
+        <g class="orbit-group-3">
+            <path class="orbit-trail orbit-trail-3" d="M 0,-250 A 250,250 0 1,1 -0.1,-250" />
+        </g>
+
+        <g class="orbit-group-4">
+            <path class="orbit-trail orbit-trail-4" d="M 0,-250 A 250,250 0 1,1 -0.1,-250" />
+        </g>
+    </svg>
 </div>
 
-<div class="subtitle">
-    Centro Integrado de Monitoramento e Análise Preditiva
-</div>
-
-<div class="header">
-
-<div class="top-buttons">
-
-    <a href="Objetivo.pdf" target="_blank">
-        📖 Leia-me
-    </a>
-
-</div>
-
-</div>
-
-<div class="menu" id="menu">
-
-<div class="card">
-
-<h2>
-🔍 ZEC Inspect
-</h2>
-
-<div class="card-buttons">
-
-<a
-class="btn-system"
-href="main/ZEC-Inspect/ZEC Inspect.html"
-target="_blank">
-
-Abrir Sistema
-
-</a>
-
-<a
-class="btn-manual"
-href="main/ZEC-Inspect/index.pdf"
-target="_blank">
-
-❓ Manual
-
-</a>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>
-📊 ZEC Prevent
-</h2>
-
-<div class="card-buttons">
-
-<a
-class="btn-system"
-href="main/ZEC-Prevent/ZEC Predictive.html"
-target="_blank">
-
-Abrir Sistema
-
-</a>
-
-<a
-class="btn-manual"
-href="main/ZEC-Prevent/index.pdf"
-target="_blank">
-
-❓ Manual
-
-</a>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>
-📉 Gráfico Pareto
-</h2>
-
-<div class="card-buttons">
-
-<a
-class="btn-system"
-href="main/ZEC-Graficos/ZEC-Grafico de pareto/index.html"
-target="_blank">
-
-Abrir Sistema
-
-</a>
-
-<a
-class="btn-manual"
-href="main/ZEC-Graficos/ZEC-Grafico de pareto/Manual Usuario ZEC Pareto.pdf"
-target="_blank">
-
-❓ Manual
-
-</a>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>
-🏷️ ZEC Etiquetas
-</h2>
-
-<div class="card-buttons">
-
-<a
-class="btn-system"
-href="main/ZEC-Etiquetas/index.html"
-target="_blank">
-
-Abrir Sistema
-
-</a>
-
-<a
-class="btn-manual"
-href="main/ZEC-Etiquetas/Manual Usuario CENTERLINE ZEC.pdf"
-target="_blank">
-
-❓ Manual
-
-</a>
-
-</div>
-
-</div>
+<div class="button-container">
+    <a href="https://usuario2207ed-hue.github.io/Paint-Shop-Predictive/main/ZEC-Inspect/ZEC%20Inspect.html" target="_blank" class="animated-button"><i class="fa-solid fa-magnifying-glass"></i> ZEC Inspect</a>
+    <a href="https://usuario2207ed-hue.github.io/Paint-Shop-Predictive/main/ZEC-Prevent/ZEC%20Predictive.html" target="_blank" class="animated-button"><i class="fa-solid fa-chart-line"></i> ZEC Prevent</a>
+    <a href="https://usuario2207ed-hue.github.io/Paint-Shop-Predictive/main/ZEC-Graficos/ZEC-Grafico%20de%20pareto/index.html" target="_blank" class="animated-button"><i class="fa-solid fa-chart-line"></i> Gráfico Pareto</a>
+    <a href="https://usuario2207ed-hue.github.io/Paint-Shop-Predictive/main/ZEC-Etiquetas/index.html" target="_blank" class="animated-button"><i class="fa-solid fa-tags"></i> ZEC Etiquetas</a>
+    
+    <a href="https://usuario2207ed-hue.github.io/Equipment-Owner/" target="_blank" class="animated-button"><i class="fa-solid fa-list-check"></i> Padrão Owner</a>
+    <a href="https://usuario2207ed-hue.github.io/Ferramenta-5W2H/" target="_blank" class="animated-button"><i class="fa-solid fa-bullseye"></i> 5w2h</a>
+    <a href="https://usuario2207ed-hue.github.io/5W2H-ISHIKAWA/" target="_blank" class="animated-button"><i class="fa-solid fa-fish"></i> Ishikawa</a>
+    <a href="https://usuario2207ed-hue.github.io/Painel-OEE/" target="_blank" class="animated-button"><i class="fa-solid fa-desktop"></i> Painel Produção</a>
 </div>
 
 <footer>
-
-<a
-href="https://usuario2207ed-hue.github.io/EDCELL-TECH/"
-target="_blank"
-class="footer-link"
->
-
-Desenvolvido por EdcellTech
-
-</a>
-
+    PAINT SHOP CONTROL CENTER v2.0<br>2026 EDCELL-TECH
 </footer>
-
-<script>
-
-const hoje = new Date();
-
-const horaAtual = hoje.toLocaleTimeString(
-    "pt-BR",
-    {
-        hour:"2-digit",
-        minute:"2-digit"
-    }
-);
-
-const visitasHoje =
-
-parseInt(
-localStorage.getItem(
-"zec_visitas_hoje"
-)
-) || 0;
-
-localStorage.setItem(
-"zec_visitas_hoje",
-visitasHoje + 1
-);
-
-document.addEventListener(
-"DOMContentLoaded",
-()=>{
-
-    const acessos =
-    document.getElementById(
-    "acessosHoje"
-    );
-
-    const ultimo =
-    document.getElementById(
-    "ultimoAcesso"
-    );
-
-    if(acessos){
-
-        acessos.innerHTML =
-        visitasHoje + 1;
-
-    }
-
-    if(ultimo){
-
-        ultimo.innerHTML =
-        horaAtual;
-
-    }
-
-});
-
-
-const cores = [
-
-    "#000000", // Preto
-    "#C0C0C0", // Prata
-    "#808080", // Cinza
-    "#1C1C1C", // Grafite
-
-    "#0057B8", // Azul Metálico
-    "#003DA5", // Azul Escuro
-    "#00AEEF", // Azul Claro
-
-    "#E10600", // Vermelho Sólido
-    "#8B0000", // Vermelho Vinho
-    "#C21807", // Vermelho Metálico
-
-    "#FFD100", // Amarelo
-    "#F5B800", // Amarelo Ouro
-
-    "#FF6A00", // Laranja
-    "#CC5500", // Laranja Queimado
-
-    "#00A651", // Verde
-    "#006B3C", // Verde Escuro
-
-    "#6F2DA8", // Roxo
-    "#8E44AD", // Roxo Metálico
-
-    "#7A4E2D", // Marrom
-    "#C2A878", // Bege
-
-    "#00A3A3", // Turquesa
-    "#0096A7"  // Azul Petróleo
-
-];
-
-const titulo = document.getElementById("title");
-
-function trocarCorTitulo() {
-
-    if (!titulo) return;
-
-    titulo.style.color =
-
-    cores[
-        Math.floor(
-            Math.random() * cores.length
-        )
-    ];
-
-}
-
-trocarCorTitulo();
-
-setInterval(
-    trocarCorTitulo,
-    5000
-);
-
-
-
-const assuntosDDS = [
-
-"Utilização correta dos EPIs.",
-
-"Organização e limpeza do posto de trabalho.",
-
-"Bloqueio e etiquetagem antes de manutenção.",
-
-"Identificação de riscos antes da atividade.",
-
-"Trabalho em altura com segurança.",
-
-"Segurança com eletricidade.",
-
-"Prevenção contra acidentes com máquinas.",
-
-"Comunicação de quase acidentes.",
-
-"Postura ergonômica durante as atividades.",
-
-"Uso correto de ferramentas manuais.",
-
-"Combate a incêndio e abandono de área.",
-
-"Cuidados com movimentação de cargas.",
-
-"Conscientização sobre atos inseguros.",
-
-"Prevenção de escorregões e quedas.",
-
-"Importância das inspeções preventivas."
-
-];
-
-
-function mostrarDDS(){
-
-const atual = new Date();
-
-const assunto =
-
-assuntosDDS[
-
-Math.floor(
-
-Math.random() *
-
-assuntosDDS.length
-
-)
-
-];
-
-const notificacao =
-
-document.createElement(
-"div"
-);
-
-notificacao.className =
-"notification";
-
-notificacao.innerHTML =
-
-`
-
-<h3>
-
-📢 DDS DE SEGURANÇA
-
-</h3>
-
-<br>
-
-<b>
-Data:
-</b>
-
-${atual.toLocaleDateString('pt-BR')}
-
-<br>
-
-<b>
-Hora:
-</b>
-
-${atual.toLocaleTimeString('pt-BR')}
-
-<br><br>
-
-<b>
-Tema:
-</b>
-
-<br>
-
-${assunto}
-
-`;
-
-document.body.appendChild(
-notificacao
-);
-
-setTimeout(()=>{
-
-notificacao.remove();
-
-},15000);
-
-}
-
-function mostrarDDSUmaVezPorDia() {
-
-    const hoje = new Date().toLocaleDateString("pt-BR");
-
-    const ultimaExibicao = localStorage.getItem("dds_data");
-
-    if (ultimaExibicao === hoje) {
-        return;
-    }
-
-    localStorage.setItem("dds_data", hoje);
-
-    mostrarDDS();
-
-}
-
-mostrarDDSUmaVezPorDia();
-
-const visitas =
-localStorage.getItem("zec_hub_visitas")
-?
-parseInt(localStorage.getItem("zec_hub_visitas"))
-:
-0;
-
-localStorage.setItem(
-    "zec_hub_visitas",
-    visitas + 1
-);
-
-const cards =
-document.querySelectorAll(".card");
-
-cards.forEach((card,index)=>{
-
-    card.style.opacity = "0";
-    card.style.transform = "translateY(40px)";
-
-    setTimeout(()=>{
-
-        card.style.transition = ".6s";
-        card.style.opacity = "1";
-        card.style.transform = "translateY(0px)";
-
-    },index * 100);
-
-});
-
-setInterval(()=>{
-
-    cards.forEach(card=>{
-
-        card.style.boxShadow =
-        `0 0 ${10 + Math.random()*20}px rgba(0,102,255,0.15)`;
-
-    });
-
-},2500);
-
-document.addEventListener(
-    "visibilitychange",
-    ()=>{
-
-        if(!document.hidden){
-
-            document.title =
-            "Paint Shop Predictive";
-
-        }
-
-    }
-);
-
-
-const frasesRodape = [
-
-    "Monitoramento Inteligente",
-    "Excelência Operacional",
-    "Manutenção Preditiva",
-    "Confiabilidade Industrial",
-    "Disponibilidade dos Equipamentos"
-
-];
-
-let indiceRodape = 0;
-
-setInterval(()=>{
-
-document.querySelector("footer").innerHTML =
-`
-<a
-href="https://usuario2207ed-hue.github.io/EDCELL-TECH/"
-target="_blank"
-class="footer-link"
->
-Desenvolvido por EdcellTech
-</a>
-<br>
-${frasesRodape[indiceRodape]}
-`;
-
-    indiceRodape++;
-
-    if(indiceRodape >= frasesRodape.length){
-
-        indiceRodape = 0;
-
-    }
-
-},5000);
-
-document.addEventListener(
-    "contextmenu",
-    function(e){
-
-        e.preventDefault();
-
-    }
-);
-
-document.addEventListener(
-    "keydown",
-    function(e){
-
-        if(e.key === "F12"){
-
-            e.preventDefault();
-
-        }
-
-    }
-);
-
-let deferredPrompt;
-
-window.addEventListener(
-    "beforeinstallprompt",
-    (e)=>{
-
-        e.preventDefault();
-
-        deferredPrompt = e;
-
-        const btn =
-        document.getElementById("installBtn");
-
-        if(btn){
-
-            btn.style.display = "block";
-
-        }
-
-    }
-);
-
-window.addEventListener(
-    "load",
-    ()=>{
-
-        const btn =
-        document.getElementById("installBtn");
-
-        if(!btn) return;
-
-        btn.addEventListener(
-            "click",
-            async ()=>{
-
-                if(!deferredPrompt){
-
-                    alert(
-                        "Para instalar utilize o ícone de instalação da barra de endereço do navegador."
-                    );
-
-                    return;
-
-                }
-
-                deferredPrompt.prompt();
-
-                await deferredPrompt.userChoice;
-
-                deferredPrompt = null;
-
-                btn.style.display = "none";
-
-            }
-        );
-
-    }
-);
-
-if("serviceWorker" in navigator){
-
-    window.addEventListener(
-        "load",
-        ()=>{
-
-            navigator.serviceWorker
-            .register("sw.js")
-            .then(()=>{
-
-                console.log(
-                    "PWA registrado com sucesso."
-                );
-
-            })
-            .catch((erro)=>{
-
-                console.log(
-                    "Erro ao registrar PWA:",
-                    erro
-                );
-
-            });
-
-        }
-    );
-
-}
-
-</script>
-
-<button id="installBtn">
-📲 Instalar App
-</button>
 
 </body>
 </html>
